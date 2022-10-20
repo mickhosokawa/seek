@@ -54,7 +54,6 @@
     {{-- 検索 --}}
   <div class="flex flex-row bg-blue-800">
     <form action="{{route('jobs')}}" method="get">
-        @csrf
         <div class="flex justify-center max-w-screen-md m-5 w-11/12">
             <div>
                 <p class="text-white text-bold text-lg ml-5">What</p>
