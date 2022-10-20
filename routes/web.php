@@ -28,7 +28,7 @@ Route::get('/mypage', function(){
 
 
 // ログインなしでアクセス可能なルート設定
-Route::get('/', [JobListController::class, 'index'])->name('index');
+Route::get('/', [JobListController::class, 'index'])->name('seek.index');
 Route::get('/jobs', [JobListController::class, 'search'])->name('jobs');
 Route::get('/jobs/{id}', [JobListController::class, 'show'])->name('seek.show');
 
