@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\primaryCategory;
+use App\Models\PrimaryCategory;
 class Job extends Model
 {
     use HasFactory;
@@ -20,6 +20,6 @@ class Job extends Model
 
     public function category()
     {
-        return $this->belongsTo(primaryCategory::class);
+        return $this->belongsTo(PrimaryCategory::class);
     }
 }

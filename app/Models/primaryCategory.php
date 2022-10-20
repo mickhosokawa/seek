@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class primaryCategory extends Model
+class PrimaryCategory extends Model
 {
     use HasFactory;
 
@@ -16,7 +16,7 @@ class primaryCategory extends Model
 
     public function getLists()
     {
-        $categories = primaryCategory::pluck('name', 'id');
+        $categories = PrimaryCategory::pluck('name', 'id');
         return $categories;
     }
 }

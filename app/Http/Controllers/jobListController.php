@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Job;
-use App\Models\primaryCategory;
+use App\Models\PrimaryCategory;
 
-class jobListController extends Controller
+class JobListController extends Controller
 {
 
     public function index()
     {
-        $category     = new primaryCategory;
+        $category     = new PrimaryCategory;
         $categories   = $category->getLists();
 
         return view('seek.index', compact('categories'));

@@ -28,8 +28,8 @@ Route::get('/mypage', function(){
 
 
 // ログインなしでアクセス可能なルート設定
-Route::get('/', [jobListController::class, 'index'])->name('index');
-Route::get('/jobs', [jobListController::class, 'search'])->name('jobs');
-Route::get('/jobs/{id}', [jobListController::class, 'show'])->name('seek.show');
+Route::get('/', [JobListController::class, 'index'])->name('index');
+Route::get('/jobs', [JobListController::class, 'search'])->name('jobs');
+Route::get('/jobs/{id}', [JobListController::class, 'show'])->name('seek.show');
 
 require __DIR__.'/auth.php';
