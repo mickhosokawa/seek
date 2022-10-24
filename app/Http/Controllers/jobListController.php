@@ -13,7 +13,7 @@ class JobListController extends Controller
     public function index()
     {
         $category     = new PrimaryCategory;
-        $categories   = $category->getLists();
+        $categories = PrimaryCategory::pluck('name', 'id');
 
         return view('seek.index', compact('categories'));
     }
@@ -21,7 +21,7 @@ class JobListController extends Controller
     public function search(Request $request)
     {
         $category     = new primaryCategory;
-        $categories   = $category->getLists();
+        $categories = PrimaryCategory::pluck('name', 'id');
         $category_ids = $request->input('category_ids');
         $sort         = $request->get('sort');
         $jobs         = DB::table('jobs');

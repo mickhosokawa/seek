@@ -13,10 +13,4 @@ class PrimaryCategory extends Model
     {
         return $this->hasMany(Job::class);
     }
-
-    public function getLists()
-    {
-        $categories = PrimaryCategory::pluck('name', 'id');
-        return $categories;
-    }
 }
