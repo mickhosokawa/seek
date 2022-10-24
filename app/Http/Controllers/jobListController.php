@@ -28,10 +28,18 @@ class JobListController extends Controller
         
         // 入力された内容を取得
         $search = $request->get('search');
-        
         $query = $jobs
-                ->leftJoin('primary_categories', 'jobs.job_id', '=', 'primary_categories.id')
-                ->where('position', 'LIKE', "%{$search}%");
+                ->leftJoin('primary_categories', 'jobs.job_id', '=', 'primary_categories.id');
+
+        // keywordが入力されていれば、AND検索を実行
+        if($search){
+            $spaceConvert = mb_convert_kana($search, 's');
+            $searchKeyWords = preg_split('/[\s,]+/', $spaceConvert, -1, PREG_SPLIT_NO_EMPTY);
+
+            foreach($searchKeyWords as $searchKeyWord){
+                $query->where('position', 'LIKE', "%{$searchKeyWord}%");
+            }
+        }
         
         // 並び替え
         if(!empty($sort)){
