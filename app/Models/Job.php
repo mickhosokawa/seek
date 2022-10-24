@@ -9,14 +9,14 @@ class Job extends Model
 {
     use HasFactory;
 
-    public function sort($select)
-    {
-        if($select == 'relevance'){
-            return $this->orderBy('id', 'desc');
-        }else{
-            return $this->orderBy('created_at', 'desc');
-        }
-    }
+    // public function sort($select)
+    // {
+    //     if($select == 'relevance'){
+    //         return $this->orderBy('id', 'desc');
+    //     }else{
+    //         return $this->orderBy('created_at', 'desc');
+    //     }
+    // }
 
     public function category()
     {
