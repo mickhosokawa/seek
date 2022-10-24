@@ -64,12 +64,5 @@
         </div>
     </div>
   </div>
-  
-  <script>
-    const select = document.getElementById('sort')
-    select.addEventListener('change', function(){
-      this.form.submit()
-    })
-  </script>
-    </body>
+  </body>
 </html>
