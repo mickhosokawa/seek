@@ -14,9 +14,10 @@ use App\Http\Controllers\jobListController;
 |
 */
 
-Route::get('/', function () {
-    return view('user.welcome');
-});
+ Route::get('/', function () {
+     return view('user.welcome');
+     //return view('seek.index');
+ });
 
 Route::get('/dashboard', function () {
     return view('user.dashboard');
@@ -28,8 +29,8 @@ Route::get('/mypage', function(){
 
 
 // ログインなしでアクセス可能なルート設定
-//Route::get('/', [JobListController::class, 'index'])->name('seek.index');
-//Route::get('/jobs', [JobListController::class, 'search'])->name('jobs');
-//Route::get('/jobs/{id}', [JobListController::class, 'show'])->name('seek.show');
+Route::get('/', [JobListController::class, 'index'])->name('seek.index');
+Route::get('/jobs', [JobListController::class, 'search'])->name('jobs');
+Route::get('/jobs/{id}', [JobListController::class, 'show'])->name('seek.show');
 
 require __DIR__.'/auth.php';
