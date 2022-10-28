@@ -45,7 +45,17 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'), $this->boolean('remember'))) {
+        // どのルートから来ているかを判別
+        if($this->routeIs('company.*')){
+            $guard = 'companies';
+        }else if($this->routeIs('admin.*')){
+            $guard = 'admin';
+        }else{
+            $guard = 'users.*';
+        }
+
+        // ルートに応じてログインメールアドレスとパスワードをチェックする
+        if (! Auth::guard($guard)->attempt($this->only('email', 'password'), $this->boolean('remember'))) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

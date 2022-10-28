@@ -17,7 +17,9 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    public const HOME = '/dashboard';
+    public const HOME = '/profile/me';
+    public const COMPANY_HOME = '/company/dashboard';
+    public const ADMIN_HOME = '/admin/dashboard';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
@@ -35,6 +37,25 @@ class RouteServiceProvider extends ServiceProvider
 
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
+
+            Route::prefix('company')
+            ->as('company.')
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/company.php'));
+
+            Route::prefix('admin')
+            ->as('admin.')
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/admin.php'));
+            
+            Route::prefix('/') // / から始まるURL
+            ->as('user.')      // 別名
+            ->middleware('web')
+            ->namespace($this->namespace)
+            ->group(base_path('routes/web.php'));
+
         });
     }
 
