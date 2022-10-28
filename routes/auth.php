@@ -11,11 +11,6 @@ use App\Http\Controllers\User\Auth\VerifyEmailController;
 use App\Http\Controllers\JobListController;
 use Illuminate\Support\Facades\Route;
 
-// ログインなしでアクセス可能なルート設定
-// Route::get('/', [JobListController::class, 'index'])->name('seek.index');
-// Route::get('/jobs', [JobListController::class, 'search'])->name('jobs');
-// Route::get('/jobs/{id}', [JobListController::class, 'show'])->name('seek.show');
-
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
@@ -38,11 +33,6 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
                 ->name('password.update');
-    // // ログインなしでアクセス可能なルート設定
-    // Route::get('/', [JobListController::class, 'index'])->name('seek.index');
-    // Route::get('/jobs', [JobListController::class, 'search'])->name('jobs');
-    // Route::get('/jobs/{id}', [JobListController::class, 'show'])->name('seek.show');
-
 });
 
 Route::middleware('auth:users')->group(function () {
