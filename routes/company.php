@@ -17,10 +17,6 @@ use App\Http\Controllers\Company\AppliedJobSeekersController;
 use App\Http\Controllers\Company\AccountController;
 use App\Http\Controllers\Company\PostedJobOffersController;
 
-// Route::get('/', function () {
-//     return view('company.welcome');
-// });
-
 Route::get('/', function () {
     return view('company.dashboard');
 })->middleware(['auth:companies', 'verified'])->name('dashboard');
