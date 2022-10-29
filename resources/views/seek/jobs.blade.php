@@ -2,7 +2,7 @@
 
   {{-- 検索 --}}
 <div class="flex flex-row bg-blue-800">
-  <form action="{{route('jobs')}}" method="get">
+  <form action="{{route('user.seek.list')}}" method="get">
     <div class="flex justify-center max-w-screen-md m-5 w-11/12">
       <div>
           <p class="text-white text-bold text-lg ml-5">What</p>
@@ -46,7 +46,7 @@
       @if (isset($jobs))
         @foreach ($jobs as $job)
         <h3 class="mt-5">
-          <a href="{{route('seek.show', ['id'=>$job->id]) }}" class="text-blue-600 text-2xl link-hover cursor-pointer">{{$job->position}}</a>
+          <a href="{{route('user.seek.show', ['id'=>$job->id]) }}" class="text-blue-600 text-2xl link-hover cursor-pointer">{{$job->position}}</a>
           <p class="text-xl">{{$job->role}}</p>
           <p class="mt-3">{{$job->location}}</p>
           <p>{{$job->salary}} per hour</p>
