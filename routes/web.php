@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\jobListController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ Route::get('/mypage', function(){
 
 // ログインなしでアクセス可能なルート設定
 Route::get('/', [JobListController::class, 'index'])->name('seek.index');
-Route::get('/jobs', [JobListController::class, 'search'])->name('seek.jobs');
-Route::get('/jobs/{id}', [JobListController::class, 'show'])->name('seek.show');
+Route::get('jobs', [JobListController::class, 'search'])->name('seek.list');
+Route::get('jobs/{id}', [JobListController::class, 'show'])->name('seek.show');
 
 require __DIR__.'/auth.php';
