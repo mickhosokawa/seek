@@ -10,6 +10,13 @@ use App\Http\Controllers\Company\Auth\RegisteredUserController;
 use App\Http\Controllers\Company\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Company\ProfileController;
+use App\Http\Controllers\Company\ActiveJobOffersController;
+use App\Http\Controllers\Company\PostJobsController;
+use App\Http\Controllers\Company\AppliedJobSeekersController;
+use App\Http\Controllers\Company\AccountController;
+use App\Http\Controllers\Company\PostedJobOffersController;
+
 Route::get('/', function () {
     return view('company.welcome');
 });
@@ -61,4 +68,28 @@ Route::middleware('auth:companies')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
+
+    // 企業プロフィールに関する操作
+    Route::get('profile', [ProfileController::class, 'create'])->name('profile.create');
+    Route::post('profile', [ProfileController::class, 'store'])->name('profile.store');
+    Route::post('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('delete-me',  [AccountController::class, 'create'])->name('accout.create');
+    Route::post('delete-me', [AccountController::class, 'destroy'])->name('accout.destroy');
+    
+    // 掲載中の求人に関する操作
+    Route::get('job-offers/active-job-list', [ActiveJobOffersController::class, 'index'])->name('active.job.offers');
+    Route::get('job-offers/active-job/{id}/show', [ActiveJobOffersController::class, 'show'])->name('active.job.detail');
+    Route::post('job-offers/pause-a-job/{id}/pause', [PostedJobOffersController::class, 'pause'])->name('active.job.pause');
+    Route::post('job-offers/destroy-a-job/{id}/destroy', [PostedJobOffersController::class, 'destroy'])->name('active.job.destroy');
+    Route::get('job-offers/edit-a-job/job-id={id}', [PostedJobOffersController::class, 'edit'])->name('job.edit');
+    Route::post('job-offers/edit-a-job/job-id={id}', [PostedJobOffersController::class, 'store'])->name('job.store');
+
+    // 応募者に関する操作
+    Route::get('job-seekers/applied', [AppliedJobSeekersController::class, 'index'])->name('applied.job.seekers');
+    Route::get('job-seekers/applied/{id}}', [AppliedJobSeekersController::class, 'show'])->name('applied.job.seeker.detail');
+
+    // 求人投稿に関する操作
+    Route::get('post-a-job', [PostJobsController::class, 'create'])->name('post.job.create');
+    Route::post('post-a-job', [PostJobsController::class, 'store'])->name('post.job.store');
+
 });
