@@ -17,7 +17,7 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('admin.companies.index')" :active="request()->routeIs('admin.dashboard')">
+                    <x-nav-link :href="route('admin.companies.create')" :active="request()->routeIs('admin.dashboard')">
                         企業管理
                     </x-nav-link>
                 </div>
