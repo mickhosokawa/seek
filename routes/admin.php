@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\Auth\RegisteredUserController;
 use App\Http\Controllers\Admin\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\Admin\CompanyController;
+
 Route::get('/', function () {
     return view('adimin.welcome');
 });
@@ -61,4 +63,9 @@ Route::middleware('auth:admin')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
+    
+    // 企業登録関連
+    Route::get('company/management', [CompanyController::class, 'index'])->name('companies.index');
+    Route::get('company/management/register', [CompanyController::class, 'create'])->name('companies.create');
+    Route::post('company/management/register', [CompanyController::class, 'store'])->name('companies.store');
 });
