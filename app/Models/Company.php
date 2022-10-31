@@ -4,8 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\companyInfo;
-use App\Models\CompanyInfo as ModelsCompanyInfo;
+use App\Models\HumanResource;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
@@ -43,7 +42,7 @@ class Company extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function companyInfo(){
-        return $this->belongsTo(CompanyInfo::class);
+    public function humanResource(){
+        return $this->hasOne(HumanResource::class);
     }
 }
