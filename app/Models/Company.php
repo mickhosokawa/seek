@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\HumanResource;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 
@@ -40,4 +41,8 @@ class Company extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function humanResource(){
+        return $this->hasOne(HumanResource::class);
+    }
 }

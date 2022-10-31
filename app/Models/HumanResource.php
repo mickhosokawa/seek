@@ -4,9 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Company;
 
 
-class CompanyInfo extends Authenticatable
+class HumanResource extends Model
 {
     use HasFactory;
 
@@ -39,4 +40,8 @@ class CompanyInfo extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function company(){
+        return $this->belongsTo(Company::class);
+    }
 }
