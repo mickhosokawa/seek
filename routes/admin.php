@@ -66,6 +66,9 @@ Route::middleware('auth:admin')->group(function () {
     
     // 企業登録関連
     Route::get('company/management', [CompanyController::class, 'index'])->name('companies.index');
+    Route::get('company/management', [CompanyController::class, 'search'])->name('companies.search');
     Route::get('company/management/create', [CompanyController::class, 'create'])->name('companies.create');
     Route::post('company/management', [CompanyController::class, 'store'])->name('companies.store');
+
+    // 企業情報取得関連
 });

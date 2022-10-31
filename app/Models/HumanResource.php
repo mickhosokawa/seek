@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use App\Models\Company;
 
 
@@ -17,7 +19,7 @@ class HumanResource extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'companies_id',
         'email',
         'password',
     ];
@@ -44,4 +46,26 @@ class HumanResource extends Model
     public function company(){
         return $this->belongsTo(Company::class);
     }
+
+    // 企業ユーザー情報登録
+    public function createHrInfo($companies_id, $email, $password){
+
+        try{
+            DB::beginTransaction();
+    
+            $result = HumanResource::create([
+                    'companies_id' => $companies_id,
+                    'email' => $email,
+                    'password' => Hash::make($password),
+                ]);
+            
+            DB::commit();
+            //dd($result);
+            return $result;
+    
+        }catch(Exception $e){
+            DB::rollBack();
+        }
+            
+        }
 }

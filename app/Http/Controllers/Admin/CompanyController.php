@@ -5,12 +5,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\HumanResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
 class CompanyController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->company = new Company;
+        $this->human_resource = new HumanResource;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -40,17 +47,43 @@ class CompanyController extends Controller
     public function store(Request $request)
     {
         try{
-            DB::transaction(function() use($request){
-                Company::create([
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'password' => Hash::make($request->password),
-                ]);
-            });
+            $name = $request->name;
+            $email = $request->email;
+            $password = Hash::make($request->password);
+
+            /**
+             * 人事テーブル作成前に企業アカウントが登録できてしまうため、
+             * 企業アカウントが登録成功し、人事テーブルが登録失敗の場合、
+             * 正しい登録ができない。
+             * 
+             * 人事テーブルが登録成功した場合のみ、
+             */
+            // 企業情報を先に登録する
+            $company = $this->company->createCompanyInfo($name, $email, $password);
+            
+            // 企業情報に登録したidを取得する
+            $company_id = $company->id;
+
+            // 人事テーブルにidとパスワードを登録する
+            $this->human_resource->createHrInfo($company_id, $email, $password);
         }catch(Exception $e){
             DB::rollback();
         }
     }
+
+    /**
+     *Search companies with keywords
+     *  
+     */
+    public function search(Request $request)
+    {
+        $companies = new Company;
+        $human_resources = new HumanResource;
+        $keywords = $request->input('keywords');
+
+        return view('admin.companies.index', compact('keywords'));
+    }
+
 
     /**
      * Display the specified resource.

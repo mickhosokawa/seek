@@ -15,7 +15,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('human_resources', function (Blueprint $table) {
-            $table->string('name');
+            $table->id();
+            $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
