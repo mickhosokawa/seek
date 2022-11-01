@@ -15,6 +15,8 @@ class CompanyController extends Controller
 
     public function __construct()
     {
+        $this->middleware('auth:admin');
+
         $this->company = new Company;
         $this->human_resource = new HumanResource;
     }
@@ -25,7 +27,9 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        return view('admin.companies.index');
+        $companies = Company::get();
+        
+        return view('admin.companies.index', compact('companies'));
     }
 
     /**
@@ -77,11 +81,27 @@ class CompanyController extends Controller
      */
     public function search(Request $request)
     {
-        $companies = new Company;
-        $human_resources = new HumanResource;
-        $keywords = $request->input('keywords');
+        // 入力された内容を取得
+        // $keywords = $request->input('keywords');
 
-        return view('admin.companies.index', compact('keywords'));
+        // // クエリビルダ
+        // $company_list = DB::table('companies');
+        // $query = $company_list
+        //         ->leftJoin('human_resources', 'companies.id', '=', 'human_resources.companies_id');
+
+        // // keywordが入力されていれば、AND検索を実行
+        // if($keywords){
+        //     $spaceConvert = mb_convert_kana($keywords, 's');
+        //     $searchKeyWords = preg_split('/[\s,]+/', $spaceConvert, -1, PREG_SPLIT_NO_EMPTY);
+
+        //     foreach($searchKeyWords as $searchKeyWord){
+        //         $query->where('companies.name', 'LIKE', "%{$searchKeyWord}%");
+        //     }
+        // }
+
+        // $companies = $query->orderBy('created_at', 'asc');
+
+        // return view('admin.companies.index', compact('keywords', 'companies'));
     }
 
 
