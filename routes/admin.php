@@ -65,10 +65,12 @@ Route::middleware('auth:admin')->group(function () {
                 ->name('logout');
     
     // 企業登録関連
-    Route::get('company/management', [CompanyController::class, 'index'])->name('companies.index');
+    Route::get('company/management/index', [CompanyController::class, 'index'])->name('companies.index');
     Route::get('company/management/search', [CompanyController::class, 'search'])->name('companies.search');
     Route::get('company/management/create', [CompanyController::class, 'create'])->name('companies.create');
-    Route::post('company/management', [CompanyController::class, 'store'])->name('companies.store');
+    Route::post('company/management/create', [CompanyController::class, 'store'])->name('companies.store');
+    Route::get('company/management/index/{id}/edit', [CompanyController::class, 'edit'])->name('companies.edit');
+    Route::post('company/management/index/{id}/edit', [CompanyController::class, 'update'])->name('companies.update');
 
     // 企業情報取得関連
 });
