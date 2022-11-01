@@ -28,7 +28,7 @@ class CompanyController extends Controller
     public function index()
     {
         $companies = Company::get();
-        
+
         return view('admin.companies.index', compact('companies'));
     }
 
@@ -73,6 +73,9 @@ class CompanyController extends Controller
         }catch(Exception $e){
             DB::rollback();
         }
+
+        // 企業リスト画面にリダイレクト
+        return redirect()->route('admin.companies.index');
     }
 
     /**
@@ -82,26 +85,26 @@ class CompanyController extends Controller
     public function search(Request $request)
     {
         // 入力された内容を取得
-        // $keywords = $request->input('keywords');
+        $keywords = $request->input('keywords');
 
-        // // クエリビルダ
-        // $company_list = DB::table('companies');
-        // $query = $company_list
-        //         ->leftJoin('human_resources', 'companies.id', '=', 'human_resources.companies_id');
+        // クエリビルダ
+        $company_list = DB::table('companies');
+        $query = $company_list
+                ->leftJoin('human_resources', 'companies.id', '=', 'human_resources.companies_id');
 
-        // // keywordが入力されていれば、AND検索を実行
-        // if($keywords){
-        //     $spaceConvert = mb_convert_kana($keywords, 's');
-        //     $searchKeyWords = preg_split('/[\s,]+/', $spaceConvert, -1, PREG_SPLIT_NO_EMPTY);
+        // keywordが入力されていれば、AND検索を実行
+        if($keywords){
+            $spaceConvert = mb_convert_kana($keywords, 's');
+            $searchKeyWords = preg_split('/[\s,]+/', $spaceConvert, -1, PREG_SPLIT_NO_EMPTY);
 
-        //     foreach($searchKeyWords as $searchKeyWord){
-        //         $query->where('companies.name', 'LIKE', "%{$searchKeyWord}%");
-        //     }
-        // }
+            foreach($searchKeyWords as $searchKeyWord){
+                $query->where('companies.name', 'LIKE', "%{$searchKeyWord}%");
+            }
+        }
 
-        // $companies = $query->orderBy('created_at', 'asc');
+        $companies = $query->orderBy('created_at', 'asc');
 
-        // return view('admin.companies.index', compact('keywords', 'companies'));
+        return view('admin.companies.index', compact('companies'));
     }
 
 
@@ -124,7 +127,9 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
-        //
+        $company = Company::findOrFail($id);
+
+        return view('admin.companies.edit', compact('company'));
     }
 
     /**
@@ -136,7 +141,15 @@ class CompanyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $company_info = Company::findorFail($id);
+
+        $company_info->name = $request->name;
+        $company_info->email = $request->email;
+
+        $company_info->save();
+
+        // 企業リスト画面にリダイレクト
+        return redirect()->route('admin.companies.index');
     }
 
     /**
