@@ -15,14 +15,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('human_resources', function (Blueprint $table) {
-            // $table->id();
-            // $table->string('name')->nullable();
-            // $table->string('email')->unique();
-            // $table->timestamp('email_verified_at')->nullable();
-            // $table->string('password');
-            // $table->foreignId('companies_id')->constrained();
-            // $table->timestamps();
-            // $table->softDeletes();
             $table->id();
             $table->string('name')->nullable();
             $table->string('email')->unique();

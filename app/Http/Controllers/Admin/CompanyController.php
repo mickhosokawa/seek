@@ -127,9 +127,16 @@ class CompanyController extends Controller
      */
     public function edit($id)
     {
+        // エロクアントで企業テーブルの情報を取得
         $company = Company::findOrFail($id);
 
-        return view('admin.companies.edit', compact('company'));
+        // クエリビルダで人事テーブルの情報を取得
+        $human_resource = DB::table('human_resources')
+                            ->where('companies_id', $id)
+                            ->first();
+
+
+        return view('admin.companies.edit', compact('company', 'human_resource'));
     }
 
     /**
