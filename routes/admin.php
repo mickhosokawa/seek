@@ -71,6 +71,7 @@ Route::middleware('auth:admin')->group(function () {
     Route::post('company/management/create', [CompanyController::class, 'store'])->name('companies.store');
     Route::get('company/management/index/{id}/edit', [CompanyController::class, 'edit'])->name('companies.edit');
     Route::post('company/management/index/{id}/edit', [CompanyController::class, 'update'])->name('companies.update');
+    Route::delete('company/management/index/{id}/edit', [CompanyController::class, 'destroy'])->name('companies.destroy');
 
     // 企業情報取得関連
 });

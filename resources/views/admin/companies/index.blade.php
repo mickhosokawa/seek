@@ -40,10 +40,14 @@
                   <td class="md:px-4 py-3">{{$company->email}}</td>
                   <td class="md:px-4 py-3">{{$company->created_at}}</td>
                   <td class="md:px-4 py-3">
-                    <button onclick="location.href='{{ route('admin.companies.edit', $company->id)}}'" class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded ">Edit</button>
+                    <button onclick="location.href='{{ route('admin.companies.edit', $company->id) }}'" class="text-white bg-green-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded ">Edit</button>
                   </td>
                   <td class="md:px-4 py-3">
-                    <button onclick="location.href='#'" class="text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded ">Delete</button>
+                    <form action="{{ route('admin.companies.destroy', $company->id) }}" method="POST">
+                      @csrf
+                      @method('delete')
+                      <button onclick="deletePost($this)" data-id={{ $company->id }}class="text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded ">Delete</button>
+                    </form>
                   </td>  
                 </tr>
                 @endforeach

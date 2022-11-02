@@ -135,7 +135,6 @@ class CompanyController extends Controller
                             ->where('companies_id', $id)
                             ->first();
 
-
         return view('admin.companies.edit', compact('company', 'human_resource'));
     }
 
@@ -167,6 +166,8 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Company::findOrFail($id)->delete();
+
+        return redirect()->route('admin.companies.index');
     }
 }

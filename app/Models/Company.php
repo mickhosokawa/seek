@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\HumanResource;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,6 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Company extends Authenticatable
 {
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -49,24 +51,23 @@ class Company extends Authenticatable
     }
 
     // 企業情報登録
-    public function createCompanyInfo($name, $email, $password){
+    public function createCompanyInfo($name, $email, $password)
+    {
+        try{
+            DB::beginTransaction();
 
-    try{
-        DB::beginTransaction();
+            $result = Company::create([
+                    'name' => $name,
+                    'email' => $email,
+                    'password' => Hash::make($password),
+                ]);
+            
+            DB::commit();
+            //dd($result);
+            return $result;
 
-        $result = Company::create([
-                'name' => $name,
-                'email' => $email,
-                'password' => Hash::make($password),
-            ]);
-        
-        DB::commit();
-        //dd($result);
-        return $result;
-
-    }catch(Exception $e){
-        DB::rollBack();
-    }
-        
+        }catch(Exception $e){
+            DB::rollBack();
+        }
     }
 }
