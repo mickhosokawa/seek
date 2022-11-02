@@ -22,7 +22,7 @@
             </div>
 
           {{-- 企業情報表示 --}}
-          <div class="lg:w-2/3 w-full mx-auto overflow-auto">
+          <div class="w-full mx-auto overflow-auto">
             <table class="table-auto w-full text-left whitespace-no-wrap">
               <th class="mb-5">
                 <tr class="text-1x1 mb-5">
@@ -46,7 +46,7 @@
                     <form action="{{ route('admin.companies.destroy', $company->id) }}" method="POST">
                       @csrf
                       @method('delete')
-                      <button onclick="deletePost($this)" data-id={{ $company->id }}class="text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded ">Delete</button>
+                      <button onclick="deletePost($this)" data-id={{ $company->id }} class="text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-green-600 rounded ">Delete</button>
                     </form>
                   </td>  
                 </tr>

@@ -102,7 +102,7 @@ class CompanyController extends Controller
             }
         }
 
-        $companies = $query->orderBy('created_at', 'asc');
+        $companies = $query->orderBy('companies.created_at', 'asc')->get();
 
         return view('admin.companies.index', compact('companies'));
     }
