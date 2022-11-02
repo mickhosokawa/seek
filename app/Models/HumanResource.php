@@ -19,7 +19,7 @@ class HumanResource extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'companies_id',
+        'company_id',
         'email',
         'password',
     ];
@@ -54,7 +54,7 @@ class HumanResource extends Model
             DB::beginTransaction();
     
             $result = HumanResource::create([
-                    'companies_id' => $companies_id,
+                    'company_id' => $companies_id,
                     'email' => $email,
                     'password' => Hash::make($password),
                 ]);

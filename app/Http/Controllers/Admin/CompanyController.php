@@ -88,21 +88,23 @@ class CompanyController extends Controller
         $keywords = $request->input('keywords');
 
         // クエリビルダ
-        $company_list = DB::table('companies');
-        $query = $company_list
-                ->leftJoin('human_resources', 'companies.id', '=', 'human_resources.companies_id');
+        // $company_list = DB::table('companies');
+        $query = DB::table('companies');
+                // ->select('companies.name', 'companies.email',)
+                // ->leftJoin('human_resources', 'companies.id', '=', 'human_resources.companies_id');
 
         // keywordが入力されていれば、AND検索を実行
-        if($keywords){
+        if(!empty($keywords)){
             $spaceConvert = mb_convert_kana($keywords, 's');
             $searchKeyWords = preg_split('/[\s,]+/', $spaceConvert, -1, PREG_SPLIT_NO_EMPTY);
 
             foreach($searchKeyWords as $searchKeyWord){
-                $query->where('companies.name', 'LIKE', "%{$searchKeyWord}%");
+                $query->where('name', 'LIKE', "%{$searchKeyWord}%");
             }
         }
 
-        $companies = $query->orderBy('companies.created_at', 'asc')->get();
+        $companies = $query->orderBy('created_at', 'asc')->get();
+        //dd($companies);
 
         return view('admin.companies.index', compact('companies'));
     }
@@ -128,14 +130,14 @@ class CompanyController extends Controller
     public function edit($id)
     {
         // エロクアントで企業テーブルの情報を取得
-        $company = Company::findOrFail($id);
+        $company = Company::withTrashed()->findOrFail($id);
 
         // クエリビルダで人事テーブルの情報を取得
-        $human_resource = DB::table('human_resources')
-                            ->where('companies_id', $id)
-                            ->first();
-
-        return view('admin.companies.edit', compact('company', 'human_resource'));
+        // $human_resource = DB::table('human_resources')
+        //                     ->where('companies_id', $id)
+        //                     ->first();
+        // dd($human_resource);
+        return view('admin.companies.edit', compact('company'));
     }
 
     /**
@@ -148,7 +150,7 @@ class CompanyController extends Controller
     public function update(Request $request, $id)
     {
         $company_info = Company::findorFail($id);
-
+        
         $company_info->name = $request->name;
         $company_info->email = $request->email;
 
@@ -166,8 +168,9 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
+        //dd(Company::findOrFail($id));
         Company::findOrFail($id)->delete();
-
+        
         return redirect()->route('admin.companies.index');
     }
 }
