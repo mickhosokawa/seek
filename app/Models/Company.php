@@ -15,6 +15,9 @@ class Company extends Authenticatable
 {
     use HasFactory;
     use SoftDeletes;
+    use \Askedio\SoftCascade\Traits\SoftCascadeTrait;
+
+    protected $softCascade = ['humanResource'];
 
     /**
      * The attributes that are mass assignable.

@@ -23,7 +23,6 @@ return new class extends Migration
             // 企業テーブル削除・更新時への対応
             $table->foreignId('company_id')
                 ->constrained()
-                ->cascadeOnUpdate()
                 ->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
