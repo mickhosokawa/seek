@@ -18,7 +18,12 @@
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('company.profile.create')" :active="request()->routeIs('admin.dashboard')">
-                        プロフィール編集
+                        Edit Profile
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('company.post.create')" :active="request()->routeIs('admin.dashboard')">
+                        Post a job
                     </x-nav-link>
                 </div>
             </div>

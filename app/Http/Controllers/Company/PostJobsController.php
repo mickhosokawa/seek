@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Company;
 
+use App\Enums\JobType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -24,7 +25,8 @@ class PostJobsController extends Controller
      */
     public function create()
     {
-        //
+        $job_types = JobType::cases();
+        return view('company.create', 'job_types');
     }
 
     /**
