@@ -9,7 +9,6 @@
         <div class="container px-5 py-24 mx-auto">
           <div class="flex flex-col text-center w-full mb-12">
             <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Post a new job!</h1>
-            {{-- <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Enter name, email, pass</p> --}}
           </div>
           <div class="lg:w-1/2 md:w-2/3 mx-auto">
             <form id="submit" method="POST" action="{{ route('company.post.job.store') }}">
@@ -24,14 +23,18 @@
               <div class="p-2 w-1/2 mx-auto">
                 <div class="relative">
                   <label for="suburb" class="leading-7 text-sm text-gray-600">Suburb</label>
-                  <input type="text" id="suburb" name="suburb" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                  {{-- <input type="text" id="suburb" name="suburb" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"> --}}
+                  <select name="suburb" id="suburb" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                    <option value="">Select suburb</option>
+                    @foreach ($suburbs as $suburb)
+                        <option value="{{ $suburb->id }}">{{ $suburb->name }}</option>
+                    @endforeach
+                  </select>
                 </div>
               </div>
               <div class="p-2 w-1/2 mx-auto">
                 <div class="relative">
                   <label for="classification" class="leading-7 text-sm text-gray-600">Classification</label>
-                  {{-- <input type="text" list="classification"> --}}
-                  {{-- <datalist id="classification" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"> --}}
                   <select name="classification" id="classification" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                     <option value="">Select Classification</option>
                     @foreach ($classifications as $classification)
@@ -39,22 +42,10 @@
                       @foreach ($classification->subClassification as $sub_classification)
                           <option value="{{ $sub_classification->id }}">{{ $sub_classification->name }} </option>
                       @endforeach
-                        {{-- <option value="{{ $classification->id }}">{{ $classification->name }}</option> --}}
                     @endforeach
                   </select>
                 </div>
               </div>
-              {{-- <div class="p-2 w-1/2 mx-auto">
-                <div class="relative">
-                  <label for="sub_classification" class="leading-7 text-sm text-gray-600">Sub classification</label>
-                  <select name="sub_classification" id="sub_classification"  class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                    <option value="">Select Sub-Classification</option>
-                    @foreach ($sub_classifications as $sub_classification)
-                        <option value="{{ $sub_classification->id }}">{{ $sub_classification->name }}</option>
-                    @endforeach
-                  </select>
-                </div>
-              </div> --}}
               <div class="p-2 w-1/2 mx-auto">
                 <div class="relative">
                   <label for="annual_salary" class="leading-7 text-sm text-gray-600">Annual salary</label>
@@ -81,7 +72,7 @@
               <div class="p-2 w-1/2 mx-auto">
                 <div class="relative">
                   <label for="description" class="leading-7 text-sm text-gray-600">Description</label>
-                  <textarea id="description" name="description" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                  <textarea id="description" name="description" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></textarea>
                 </div>
               </div>
               <div class="p-2 w-1/2 mx-auto">
