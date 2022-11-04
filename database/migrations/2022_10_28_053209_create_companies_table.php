@@ -34,15 +34,6 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
-            // $table->id();
-            // $table->bigInteger('company_info_id')->constrained('company_infos');
-            // $table->string('name');
-            // $table->string('email')->unique();
-            // $table->timestamp('email_verified_at')->nullable();
-            // $table->string('password');
-            // $table->rememberToken();
-            // $table->timestamps();
-            // $table->softDeletes();
         });
     }
 

@@ -15,11 +15,15 @@ return new class extends Migration
     public function up()
     {
         Schema::create('human_resources', function (Blueprint $table) {
-            $table->string('name');
+            $table->id();
+            $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->foreignId('companies_id')->constrained();
+            // 企業テーブル削除・更新時への対応
+            $table->foreignId('company_id')
+                ->constrained()
+                ->cascadeOnDelete();
             $table->timestamps();
             $table->softDeletes();
         });
