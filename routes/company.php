@@ -76,7 +76,7 @@ Route::middleware('auth:companies')->group(function () {
     Route::get('job-offers/active-job-list', [ActiveJobOffersController::class, 'index'])->name('active.job.offers');
     Route::get('job-offers/active-job/{id}/show', [ActiveJobOffersController::class, 'show'])->name('active.job.detail');
     Route::post('job-offers/pause-a-job/{id}/pause', [PostedJobOffersController::class, 'pause'])->name('active.job.pause');
-    Route::post('job-offers/destroy-a-job/{id}/destroy', [PostedJobOffersController::class, 'destroy'])->name('active.job.destroy');
+    Route::post('job-offers/destroy-a-job/{id}', [PostedJobOffersController::class, 'destroy'])->name('active.job.destroy');
     Route::get('job-offers/edit-a-job/job-id={id}', [PostedJobOffersController::class, 'edit'])->name('job.edit');
     Route::post('job-offers/edit-a-job/job-id={id}', [PostedJobOffersController::class, 'store'])->name('job.store');
 
