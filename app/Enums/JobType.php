@@ -16,7 +16,7 @@ enum JobType: int
     case CONTRACT_TEMPORARY = 2;
     case CASUAL_VACATION = 3;
 
-    public function lavel(): string
+    public function label(): string
     {
         return match($this)
         {

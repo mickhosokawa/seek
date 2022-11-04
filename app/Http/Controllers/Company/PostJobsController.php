@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Company;
 use App\Enums\JobType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Classification;
+use App\Models\SubClassification;
+use App\Models\Suburb;
 
 class PostJobsController extends Controller
 {
@@ -26,7 +29,11 @@ class PostJobsController extends Controller
     public function create()
     {
         $job_types = JobType::cases();
-        return view('company.create', 'job_types');
+        $suburbs = Suburb::get();
+        $classifications = Classification::with('subClassification')->get();
+        //$sub_classifications = SubClassification::get();
+
+        return view('company.post', compact('job_types', 'suburbs', 'classifications'));
     }
 
     /**

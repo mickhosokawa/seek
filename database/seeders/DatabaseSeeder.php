@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\primaryCategory;
+use App\Models\SubClassification;
 use App\Models\Suburb;
 use Database\Factories\AdminFactory;
 use Illuminate\Database\Seeder;
@@ -32,6 +33,7 @@ class DatabaseSeeder extends Seeder
             ClassificationSeeder::class,
             StateSeeder::class,
             SuburbSeeder::class,
+            SubClassificationSeeder::class,
         ]);
     }
 }
