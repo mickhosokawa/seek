@@ -6,11 +6,18 @@ use App\Enums\JobType;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Classification;
-use App\Models\SubClassification;
 use App\Models\Suburb;
+use App\Models\JobOffer;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class PostJobsController extends Controller
 {
+
+    public function __construct()
+    {
+        //$this->middleware('auth:company');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -31,7 +38,6 @@ class PostJobsController extends Controller
         $job_types = JobType::cases();
         $suburbs = Suburb::get();
         $classifications = Classification::with('subClassification')->get();
-        //$sub_classifications = SubClassification::get();
 
         return view('company.post', compact('job_types', 'suburbs', 'classifications'));
     }
@@ -44,7 +50,19 @@ class PostJobsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::transaction(function () use($request){
+            JobOffer::create([
+                'company_id' => Auth::id(),
+                'title' => $request->title,
+                'suburb_id' => $request->suburb,
+                'sub_classification_id' => $request->sub_classification,
+                'annual_salary' => $request->annual_salary,
+                'hourly_pay' => $request->hourly_pay,
+                'job_type' => $request->job_type,
+                'description' => $request->description,
+                'is_display' => $request->is_display,
+            ]);
+        });
     }
 
     /**

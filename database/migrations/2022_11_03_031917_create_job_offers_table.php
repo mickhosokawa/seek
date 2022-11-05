@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('title');
             $table->foreignId('suburb_id')
                     ->constrained();
-            $table->foreignId('classification_id')
-                    ->constrained();
+            // $table->foreignId('classification_id')
+            //         ->constrained();
             $table->foreignId('sub_classification_id')
                     ->constrained();
             $table->integer('annual_salary');
@@ -29,7 +29,7 @@ return new class extends Migration
             $table->integer('job_type');
             $table->text('description');
             $table->boolean('is_display');
-            $table->integer('sort_no');
+            $table->integer('sort_no')->nullable();
             $table->timestamps();
         });
     }

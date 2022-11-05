@@ -8,23 +8,23 @@
     <section class="text-gray-600 body-font relative">
         <div class="container px-5 py-24 mx-auto">
           <div class="flex flex-col text-center w-full mb-12">
-            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Post a new job!</h1>
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Post a new oppotunity!</h1>
           </div>
-          <div class="lg:w-1/2 md:w-2/3 mx-auto">
+          <div class="lg:w-5/6 md:w-2/3 mx-auto">
             <form id="submit" method="POST" action="{{ route('company.post.job.store') }}">
                 @csrf
-            <div class="-m-2">
+            <div class="-m-2 lg:min-w-full md:w-2/3 rounded-lg bg-white">
               <div class="p-2 w-1/2 mx-auto">
-                <div class="relative">
-                  <label for="title" class="leading-7 text-sm text-gray-600">Title</label>
-                  <input type="text" id="title" name="title" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                <div class="relative mt-4">
+                  <label for="title" class="leading-7 text-sm font-bold text-gray-600">Title</label>
+                  <input type="text" id="title" name="title" minlength="10" maxlength="100" required class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                 </div>
               </div>
               <div class="p-2 w-1/2 mx-auto">
                 <div class="relative">
-                  <label for="suburb" class="leading-7 text-sm text-gray-600">Suburb</label>
+                  <label for="suburb" class="leading-7 text-sm font-bold text-gray-600">Suburb</label>
                   {{-- <input type="text" id="suburb" name="suburb" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"> --}}
-                  <select name="suburb" id="suburb" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                  <select name="suburb" id="suburb" required class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                     <option value="">Select suburb</option>
                     @foreach ($suburbs as $suburb)
                         <option value="{{ $suburb->id }}">{{ $suburb->name }}</option>
@@ -34,8 +34,8 @@
               </div>
               <div class="p-2 w-1/2 mx-auto">
                 <div class="relative">
-                  <label for="classification" class="leading-7 text-sm text-gray-600">Classification</label>
-                  <select name="classification" id="classification" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                  <label for="sub_classification" class="leading-7 text-sm font-bold text-gray-600">Classification</label>
+                  <select name="sub_classification" id="sub_classification" required class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                     <option value="">Select Classification</option>
                     @foreach ($classifications as $classification)
                     <optgroup label="{{ $classification->name }}">
@@ -48,31 +48,35 @@
               </div>
               <div class="p-2 w-1/2 mx-auto">
                 <div class="relative">
-                  <label for="annual_salary" class="leading-7 text-sm text-gray-600">Annual salary</label>
-                  <input type="text" id="annual_salary" name="annual_salary" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                  <label for="annual_salary" class="leading-7 text-sm font-bold text-gray-600">Annual salary</label>
+                  <input type="number" min="0" id="annual_salary" name="annual_salary" required class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                 </div>
               </div>
               <div class="p-2 w-1/2 mx-auto">
                 <div class="relative">
-                  <label for="hourly_pay" class="leading-7 text-sm text-gray-600">Hourly pay</label>
-                  <input type="text" id="hourly_pay" name="hourly_pay" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                  <label for="hourly_pay" class="leading-7 text-sm font-bold text-gray-600">Hourly pay</label>
+                  <input type="number" min="0" id="hourly_pay" name="hourly_pay" required class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                 </div>
               </div>
               <div class="p-2 w-1/2 mx-auto">
-                <div class="relative">
-                  <label for="job_type" class="leading-7 text-sm text-gray-600">Job type</label>
-                  <select name="job_type" id="job_type"  class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                    <option value="">Select job type</option>
+                <label for="hourly_pay" class="leading-7 text-sm font-bold text-gray-600">Job type</label>
+                <div class="relative items-center mb-4">
+                  <ul class="w-96 text-xl font-medium text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                     @foreach ($job_types as $job_type)
-                        <option value="{{ $job_type->value }}">{{ $job_type->label() }}</option>
-                    @endforeach
-                  </select>
+                    <li class="w-full my-2 dark:border-gray-600">
+                      <div class="flex items-center pl-3">
+                        <input name="job_type" id="job_type" type="radio" value="{{ $job_type->value }}" class="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                        <label for="job_type" class="leading-7 text-xl text-gray-600">{{ $job_type->label() }}</label>      
+                      </div>
+                    </li>
+                  @endforeach
+                  </ul>
                 </div>
               </div>
               <div class="p-2 w-1/2 mx-auto">
                 <div class="relative">
-                  <label for="description" class="leading-7 text-sm text-gray-600">Description</label>
-                  <textarea id="description" name="description" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></textarea>
+                  <label for="description" class="leading-7 text-sm font-bold text-gray-600">Description</label>
+                  <textarea id="description" name="description" minlength="100" maxlength="1000" rows="20" placeholder="Tell jobseekers your attractiveness!" required class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></textarea>
                 </div>
               </div>
               <div class="p-2 w-1/2 mx-auto">

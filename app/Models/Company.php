@@ -53,6 +53,10 @@ class Company extends Authenticatable
         return $this->hasOne(HumanResource::class);
     }
 
+    public function jobOffer(){
+        return $this->belongsTo(JobOffer::class);
+    }
+
     // 企業情報登録
     public function createCompanyInfo($name, $email, $password)
     {
