@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Post a job
+            Register your information
         </h2>
     </x-slot>
 
@@ -12,7 +12,7 @@
             {{-- <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Enter name, email, pass</p> --}}
           </div>
           <div class="lg:w-1/2 md:w-2/3 mx-auto">
-            <form id="submit" method="POST" action="{{ route('post.job.store') }}">
+            <form id="submit" method="POST" action="{{ route('company.profile.store') }}">
                 @csrf
             <div class="-m-2">
               <div class="p-2 w-1/2 mx-auto">
