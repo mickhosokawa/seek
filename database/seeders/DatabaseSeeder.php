@@ -5,6 +5,9 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\primaryCategory;
+use App\Models\SubClassification;
+use App\Models\Suburb;
+use Database\Factories\AdminFactory;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -24,7 +27,13 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             //jobSeeder::class,
-            //primaryCategorySeeder::class,
+            UserSeeder::class,
+            AdminFactorySeeder::class,
+            CompanySeeder::class,
+            ClassificationSeeder::class,
+            StateSeeder::class,
+            SuburbSeeder::class,
+            SubClassificationSeeder::class,
         ]);
     }
 }

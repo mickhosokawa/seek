@@ -53,6 +53,11 @@ class Company extends Authenticatable
         return $this->hasOne(HumanResource::class);
     }
 
+    // 1つのCompanyは複数のJobOfferを持つ
+    public function jobOffer(){
+        return $this->hasMany(JobOffer::class);
+    }
+
     // 企業情報登録
     public function createCompanyInfo($name, $email, $password)
     {

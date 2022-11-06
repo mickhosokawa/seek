@@ -2,11 +2,24 @@
 
 namespace App\Http\Controllers\Company;
 
-use Illuminate\Http\Request;
+use App\Enums\JobType;
 use App\Http\Controllers\Controller;
+use App\Models\Classification;
+use App\Models\Suburb;
+use App\Models\JobOffer;
+use App\Http\Requests\Company\JobPostRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class PostJobsController extends Controller
 {
+
+    public function __construct()
+    {
+        //$this->middleware('auth:company');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +37,11 @@ class PostJobsController extends Controller
      */
     public function create()
     {
-        //
+        $job_types = JobType::cases();
+        $suburbs = Suburb::get();
+        $classifications = Classification::with('subClassification')->get();
+
+        return view('company.jobs.create', compact('job_types', 'suburbs', 'classifications'));
     }
 
     /**
@@ -33,9 +50,63 @@ class PostJobsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(JobPostRequest $request)
     {
-        //
+        // バリデーション後、フラッシュメッセージを返す処理
+        $is_validated = $request->validated();
+
+        if($is_validated){
+            $message_key = 'success_message';
+            $flash_message = 'Post has been successful';
+        }else{
+            $message_key = 'error_message';
+            $flash_message = 'You should follow bellow messages.';
+        }
+        
+        // Validatorを使ったバリデーション 
+        // $message_key = '';
+        // $flash_message = '';
+
+        // $validator = Validator::make($request->all(), 
+        // [
+        //     'title' => 'required|min:11|max:100',
+        //     'suburb' => 'required',
+        //     'sub_classification' => 'required',
+        //     'annual_salary' => 'required|min:0',
+        //     'hourly_pay' => 'required|min:0',
+        //     'job_type' => 'required',
+        //     'description' => 'required|min:100|max:1000',
+        // ]);
+
+        // if($validator->fails()){
+        //     $message_key = 'error_message';
+        //     $flash_message = 'You should follow bellow messages.';
+            
+        //     return redirect(route('company.post.job.create'))
+        //         ->withErrors($validator, )
+        //         ->withInput();
+        // }else{
+        //     $message_key = 'success_message';
+        //     $flash_message = 'Post has been successful';
+
+        //     return redirect()->route('company.post.job.create')->with($message_key, $flash_message);
+        // }
+        
+        //DB::transaction(function () use($request){
+            JobOffer::create([
+                'company_id' => Auth::id(),
+                'title' => $request->title,
+                'suburb_id' => $request->suburb,
+                'sub_classification_id' => $request->sub_classification,
+                'annual_salary' => $request->annual_salary,
+                'hourly_pay' => $request->hourly_pay,
+                'job_type' => $request->job_type,
+                'description' => $request->description,
+                'is_display' => $request->is_display,
+            ]);
+        //});
+
+        return redirect()->route('company.post.job.create')->with($message_key, $flash_message);
     }
 
     /**
