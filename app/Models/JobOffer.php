@@ -46,7 +46,8 @@ class JobOffer extends Model
         'email_verified_at' => 'datetime',
     ];
 
+    // ジョブオファーは複数のCompanyを持つ
     public function company(){
-        return $this->HasMany(Company::class);
+        return $this->belongsTo(Company::class);
     }
 }
