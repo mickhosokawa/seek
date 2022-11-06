@@ -27,7 +27,7 @@
               <div class="p-2 w-1/2 mx-auto">
                 <div class="relative mt-4">
                   <label for="title" class="leading-7 text-sm font-bold text-gray-600">Title</label>
-                  <input type="text" id="title" name="title" minlength="5" maxlength="100" required value="{{ old('title') }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                  <input type="text" id="title" name="title" minlength="10" maxlength="100" required value="{{ old('title') }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                   @error('title')
                     <div class="alert alert-danger text-red-500">{{ $message }}</div>
                   @enderror
@@ -40,7 +40,10 @@
                   <select name="suburb" id="suburb" required class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                     <option value="">Select suburb</option>
                     @foreach ($suburbs as $suburb)
-                        <option value="{{ $suburb->id }}">{{ $suburb->name }}</option>
+                        <option value="{{ $suburb->id }}" 
+                          @if($suburb->id === (int)old('suburb')) selected @endif>
+                            {{ $suburb->name }}
+                        </option>
                     @endforeach
                   </select>
                   @error('suburb')
@@ -56,7 +59,10 @@
                     @foreach ($classifications as $classification)
                     <optgroup label="{{ $classification->name }}">
                       @foreach ($classification->subClassification as $sub_classification)
-                          <option value="{{ $sub_classification->id }}">{{ $sub_classification->name }} </option>
+                          <option value="{{ $sub_classification->id }}"
+                            @if ($sub_classification->id === (int)old('sub_classification')) selected @endif>
+                            {{ $sub_classification->name }} 
+                          </option>
                       @endforeach
                     @endforeach
                   </select>
@@ -90,7 +96,9 @@
                     @foreach ($job_types as $job_type)
                       <li class="w-full my-2 dark:border-gray-600">
                         <div class="flex items-center pl-3">
-                          <input name="job_type" id="job_type" type="radio" value="{{ $job_type->value }}" class="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                          <input name="job_type" id="job_type" type="radio" value="{{ $job_type->value }}" 
+                          @if($job_type->value === (int)old('job_type')) checked @endif
+                          class="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                           <label for="job_type" class="leading-7 text-xl text-gray-600">{{ $job_type->label() }}</label>      
                         </div>
                       </li>
