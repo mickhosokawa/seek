@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Classification;
 use App\Models\Suburb;
 use App\Models\JobOffer;
+use App\Http\Requests\Company\JobPostRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -40,7 +41,7 @@ class PostJobsController extends Controller
         $suburbs = Suburb::get();
         $classifications = Classification::with('subClassification')->get();
 
-        return view('company.post', compact('job_types', 'suburbs', 'classifications'));
+        return view('company.jobs.create', compact('job_types', 'suburbs', 'classifications'));
     }
 
     /**
@@ -49,23 +50,12 @@ class PostJobsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(JobPostRequest $request)
     {
-        /**
-         * 受け取ったリクエストのバリデーション
-         * フラッシュメッセージ
-         *  */ 
-        $validated = $request->validate([
-            'title' => 'required|min:10|max:100',
-            'suburb' => 'required',
-            'sub_classification' => 'required',
-            'annual_salary' => 'required|min:0',
-            'hourly_pay' => 'required|min:0',
-            'job_type' => 'required',
-            'description' => 'required|min:100|max:1000',
-        ]);
+        // バリデーション後、フラッシュメッセージを返す処理
+        $is_validated = $request->validated();
 
-        if($validated){
+        if($is_validated){
             $message_key = 'success_message';
             $flash_message = 'Post has been successful';
         }else{
@@ -102,7 +92,7 @@ class PostJobsController extends Controller
         //     return redirect()->route('company.post.job.create')->with($message_key, $flash_message);
         // }
         
-        DB::transaction(function () use($request){
+        //DB::transaction(function () use($request){
             JobOffer::create([
                 'company_id' => Auth::id(),
                 'title' => $request->title,
@@ -114,7 +104,7 @@ class PostJobsController extends Controller
                 'description' => $request->description,
                 'is_display' => $request->is_display,
             ]);
-        });
+        //});
 
         return redirect()->route('company.post.job.create')->with($message_key, $flash_message);
     }

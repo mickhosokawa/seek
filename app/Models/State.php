@@ -12,6 +12,6 @@ class State extends Model
 
     public function suburb()
     {
-        return $this->HasMany(Suburb::class);
+        return $this->hasMany(Suburb::class);
     }
 }
