@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('company_id')->constrained();
+            $table->string('title');
+            $table->string('image');
+            $table->boolean('is_pr_image');
             $table->timestamps();
         });
     }

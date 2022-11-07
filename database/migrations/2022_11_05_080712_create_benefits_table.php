@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('benefits', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
+            $table->string('detail');
+            $table->foreignId('company_id')->constrained();
             $table->timestamps();
         });
     }
