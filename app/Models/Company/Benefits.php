@@ -4,6 +4,7 @@ namespace App\Models\Company;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Company;
 
 class Benefits extends Model
 {
@@ -15,17 +16,13 @@ class Benefits extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'title',
+        'detail',
+        'company_id',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    // 企業テーブルが親
+    public function company(){
+        return $this->belongsTo(Company::class);
+    }
 }

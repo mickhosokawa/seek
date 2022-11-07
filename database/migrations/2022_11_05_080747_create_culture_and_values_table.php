@@ -16,6 +16,8 @@ return new class extends Migration
         Schema::create('culture_and_values', function (Blueprint $table) {
             $table->id();
             $table->foreignId('company_id')->constrained();
+            $table->string('title');
+            $table->string('detail');
             $table->timestamps();
         });
     }
