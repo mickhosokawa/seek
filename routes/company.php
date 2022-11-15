@@ -66,8 +66,12 @@ Route::middleware('auth:companies')->group(function () {
                 ->name('logout');
 
     // 企業プロフィールに関する操作
-    Route::get('profile/create', [ProfileController::class, 'create'])->name('profile.create');
-    Route::post('profile', [ProfileController::class, 'store'])->name('profile.store');
+    Route::get('profile/create',    [ProfileController::class, 'create'])->name('profile.create');
+    Route::post('profile/create',   [ProfileController::class, 'firstPost'])->name('profile.first');
+    Route::get('profile/createSecond',    [ProfileController::class, 'createSecond'])->name('profile.createSecond');
+    Route::post('profile/createSecond',   [ProfileController::class, 'secondPost'])->name('profile.second');
+    Route::get('profile/confirm',    [ProfileController::class, 'confirm'])->name('profile.confirm');
+    Route::post('profile/confirm',   [ProfileController::class, 'store'])->name('profile.store');
     Route::post('profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('delete-me',  [AccountController::class, 'create'])->name('accout.create');
     Route::post('delete-me', [AccountController::class, 'destroy'])->name('accout.destroy');
