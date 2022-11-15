@@ -11,14 +11,16 @@
             <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900"></h1>
           </div>
           <div class="lg:w-1/2 md:w-2/3 mx-auto">
-            <form id="next" method="POST" action="{{ route('company.profile.second') }}">
+            <form id="next" method="POST" action="{{ route('company.profile.second') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="-m-2">
                 <div class="p-2 w-1/2 mx-auto">
                     <div class="relative" id="awardsBaseForm">
-                    <label for="AwardsAndAccreditations" class="leading-7 text-sm text-gray-600">Awards and Accreditations</label>
-                    <input type="text" id="AwardsAndAccreditations" name="AwardsAndAccreditations" value="{{ old('AwardsAndAccreditations') }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <label for="awardTitle" class="leading-7 text-sm text-gray-600">Awards and Accreditations</label>
+                        <input type="text" id="awardTitle" name="awardTitle[]" value="{{ old('awardTitle[]') }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                        <input type="file" id="awardImage" name="awardImage[]" />
                     </div>
+                    <input type="button" onclick="addAwardsForm()" value="add" class="addAwards mt-5 border-t-2">
                 </div>
                 <div class="p-2 w-1/2 mx-auto">
                     <div class="relative">
@@ -52,15 +54,23 @@
 
     // 受賞タイトルを追加した時
     function addAwardsForm(){ 
-        var input_data = document.createElement('input');
-        input_data.id = 'AwardsAndAccreditations';
-        input_data.type = 'text';
-        input_data.name = 'AwardsAndAccreditations';
-        input_data.class = 'w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out';
-        //document.getElementByClassName('addAwards');
+        var input_title = document.createElement('input');
+        input_title.id = 'awardTitle';
+        input_title.type = 'text';
+        input_title.name = 'awardTitle[]';
+        input_title.class = 'w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out';
+        
+        var parent = document.getElementById('awardsBaseForm');
+        parent.appendChild(input_title);
+
+        var input_image = document.createElement('input');
+        input_image.id = 'awardImage';
+        input_image.type = 'file';
+        input_image.name = 'awardImage[]';
+        input_image.class = ''
 
         var parent = document.getElementById('awardsBaseForm');
-        parent.appendChild(input_data);
+        parent.appendChild(input_image);
     }
     
     // 福利厚生を追加した時
