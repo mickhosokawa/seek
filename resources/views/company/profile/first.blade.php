@@ -6,133 +6,129 @@
     </x-slot>
 
     <section class="text-gray-600 body-font relative">
-        <div class="container px-5 py-24 mx-auto">
-          <div class="flex flex-col text-center w-full mb-12">
-            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900"></h1>
-          </div>
-          <div class="lg:w-1/2 md:w-2/3 mx-auto">
-            <form id="next" method="POST" action="{{ route('company.profile.first') }}">
-                @csrf
-                <div class="-m-2">
-                <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative">
-                    <label for="name" class="leading-7 text-sm text-gray-600">Name</label>
-                    <input type="text" id="name" name="name" 
-                        value="@if(isset($company->name)) 
-                                {{ $company->name }} 
-                              @else {{ old('name') }} 
-                              @endif " class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+        <div class="mt-10 mx-auto">
+            <div class="md:grid md:grid-cols-2 md:gap-6">
+                <div class="md:col-span-1">
+                    <div class="px-4 sm:px-0">
+                    <h3 class="text-lg font-medium leading-6 text-gray-900">Personal Information</h3>
+                    <p class="mt-1 text-sm text-gray-600">Use a permanent address where you can receive mail.</p>
                     </div>
                 </div>
-                <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative">
-                    <label for="email" class="leading-7 text-sm text-gray-600">Email</label>
-                    <input type="email" id="email" name="email" 
-                            value="@if(isset($company->email)) 
+              <div class="mt-5 md:col-span-2 w-2/3 md:mt-0 mx-auto">
+                <form id="next" action="{{ route('company.profile.first') }}" method="POST">
+                    @csrf
+                  <div class="overflow-hidden shadow sm:rounded-md">
+                    <div class="bg-white px-4 py-5 sm:p-6">
+                      <div class="grid grid-cols-6 gap-6">
+                        <div class="col-span-6 sm:col-span-3">
+                          <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                          <input type="text" name="name" id="name" autocomplete="name" required 
+                                    value="@if(isset($company->name)) 
+                                    {{ $company->name }} 
+                                    @else {{ old('name') }} 
+                                    @endif "
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+          
+                        <div class="col-span-6 sm:col-span-3">
+                          <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
+                          <input type="email" name="email" id="email" autocomplete="email" required 
+                                    value="@if(isset($company->email)) 
                                     {{ $company->email }} 
-                                   @else {{ old('email') }} 
-                                   @endif" 
-                            class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                    @else {{ old('email') }} 
+                                    @endif "
+                          class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-6">
+                            <label for="address" class="block text-sm font-medium text-gray-700">Resident address</label>
+                            <input type="text" name="address" id="address" autocomplete="email" required 
+                                    value="@if(isset($company->address)) 
+                                    {{ $company->address }} 
+                                    @else {{ old('address') }} 
+                                    @endif "
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="phone_number" class="block text-sm font-medium text-gray-700">Phone number</label>
+                            <input type="number" name="phone_number" id="phone_number" autocomplete="phone_number" required
+                                    value="@if(isset($company->phone_number)) 
+                                    {{ $company->phone_number }} 
+                                    @else {{ old('phone_number') }} 
+                                    @endif "
+                            class="mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="url" class="block text-sm font-medium text-gray-700">URL</label>
+                            <input type="url" name="url" id="url" autocomplete="url" required 
+                                    value="@if(isset($company->url)) 
+                                    {{ $company->url }} 
+                                    @else {{ old('url') }} 
+                                    @endif "
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="industry" class="block text-sm font-medium text-gray-700">Industry</label>
+                            <input type="text" name="industry" id="industry" autocomplete="industry" required 
+                                    value="@if(isset($company->industry)) 
+                                    {{ $company->industry }} 
+                                    @else {{ old('industry') }} 
+                                    @endif "
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+
+                        <div class="col-span-6 sm:col-span-3">
+                            <label for="speciality" class="block text-sm font-medium text-gray-700">Speciality</label>
+                            <input type="text" name="speciality" id="speciality" autocomplete="speciality" required 
+                                    value="@if(isset($company->specialities)) 
+                                    {{ $company->specialities }} 
+                                    @else {{ old('speciality') }} 
+                                    @endif "
+                            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                        </div>
+
+                        <div class="col-span-6">
+                            <label for="mission" class="block text-sm font-medium text-gray-700">Mission</label>
+                            <textarea rows="4" name="mission" id="mission" autocomplete="mission" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    @if(isset($company->our_mission_statement)) 
+                                    {{ $company->our_mission_statement }} 
+                                    @else {{ old('mission') }} 
+                                    @endif
+                            </textarea>
+                        </div>
+
+                        <div class="col-span-6">
+                            <label for="featured" class="block text-sm font-medium text-gray-700">Featured</label>
+                            <textarea rows="4" name="featured" id="featured" autocomplete="featured" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    @if(isset($company->featured)) 
+                                    {{ $company->featured }} 
+                                    @else {{ old('featured') }} 
+                                    @endif
+                            </textarea>
+                        </div>
+
+                        <div class="col-span-6">
+                            <label for="other" class="block text-sm font-medium text-gray-700">Other</label>
+                            <textarea rows="4" name="other" id="other" autocomplete="other" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                    @if(isset($company->other)) 
+                                    {{ $company->other }} 
+                                    @else {{ old('other') }} 
+                                    @endif
+                            </textarea>
+                        </div>
+                    </div> 
+
+                        <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
+                        <button type="hidden" id="next" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Save</button>
+                        </div>
                     </div>
                 </div>
-                {{-- 要改善 --}}
-                <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative">
-                    <label for="address" class="leading-7 text-sm text-gray-600">Address</label>
-                    <input type="text" id="address" name="address" 
-                    value="@if(isset($company->address)) {{ $company->address }} 
-                           @else {{ old('address') }}
-                           @endif" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                    </div>
-                </div>
-                <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative">
-                    <label for="phone_number" class="leading-7 text-sm text-gray-600">Phone number</label>
-                    <input type="tel" id="phone_number" name="phone_number" 
-                    value="@if(isset($company->phone_number)) {{ $company->phone_number }}
-                           @else {{ old('phone_number') }}
-                           @endif" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                    </div>
-                </div>
-                <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative">
-                    <label for="url" class="leading-7 text-sm text-gray-600">URL</label>
-                    <input type="text" id="url" name="url" 
-                    value="@if (isset($company->url)) {{ $company->url }}
-                           @else {{ old('url') }}
-                           @endif" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                    </div>
-                </div>
-                <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative">
-                    <label for="industry" class="leading-7 text-sm text-gray-600">Industry</label>
-                    <input type="text" id="industy" name="industry" 
-                        value="@if (isset($company->industry)) {{ $company->industry }}
-                               @else {{ old('industry') }}
-                               @endif" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                    </div>
-                </div>
-                <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative">
-                    <label for="company_size" class="leading-7 text-sm text-gray-600">Company size</label>
-                    <input type="number" id="company_size" name="company_size" 
-                    value="@if (isset($company->company_size)) {{ $company->company_size }}
-                        
-                    @else {{ old('company_size') }}
-                        
-                    @endif" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                    </div>
-                </div>
-                <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative">
-                    <label for="speciality" class="leading-7 text-sm text-gray-600">speciality</label>
-                    <input type="text" id="speciality" name="speciality" 
-                    value="@if (isset($company->specialities)) {{ $company->specialities }}
-                        
-                    @else {{ old('speciality') }}
-                        
-                    @endif" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                    </div>
-                </div>
-                <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative">
-                    <label for="mission" class="leading-7 text-sm text-gray-600">Mission</label>
-                    <input type="text" id="mission" name="mission" 
-                    value="@if (isset($company->our_mission_statement)) {{ $company->our_mission_statement }}
-                        
-                    @else {{ old('mission') }}
-                        
-                    @endif" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                    </div>
-                </div>
-                <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative">
-                    <label for="featured" class="leading-7 text-sm text-gray-600">Featured</label>
-                    <input type="text" id="featured" name="featured" 
-                    value="@if (isset($company->featured)) {{ $company->featured }}
-                        
-                    @else {{ old('featured') }}
-                        
-                    @endif" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                    </div>
-                </div>
-                <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative">
-                    <label for="other" class="leading-7 text-sm text-gray-600">Other</label>
-                    <input type="text" id="other" name="other" 
-                    value="@if (isset($company->other)) {{ $company->other }}
-                        
-                    @else {{ old('other') }}
-                        
-                    @endif" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                    </div>
-                </div>
-                <div class="p-2 w-full">
-                    <button type="hidden" id="next" name="pageFlag" value="1" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Next</button>
-                </div>
-                </div>
-            </form>
-           </div>
+                </form>
+              </div>
+            </div>
         </div>
     </section>
 </x-app-layout>
