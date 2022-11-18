@@ -8,7 +8,10 @@ use App\Http\Requests\Company\ProfileFirstRequest;
 use Illuminate\Validation\Validator;
 use App\Models\Company;
 use App\Models\Company\AwardsAndAccreditations;
+use App\Models\Company\Benefits;
+use App\Models\Company\CultureAndValues;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class ProfileController extends Controller
@@ -25,22 +28,22 @@ class ProfileController extends Controller
 
     public function create()
     {
-        // if(is_null($request->pageFlag)){
-        //     return view('company.profile.create');
-        // }else{
-        //     //dd($request->pageFlag);
-        //     return view('company.profile.create');
-        // }
-        return view('company.profile.first');
+        //
+        $company = Company::where('id', '=', Auth::id())->first();
+        //dd($company);
+
+        return view('company.profile.first', compact('company'));
     }
 
     public function firstPost(ProfileFirstRequest $request)
     {
+        
         // 入力値の取得
         $first_post = $request->all();
 
         // 入力チェック
         $is_validated = $request->validated();
+        //dd($is_validated);
 
         // フラッシュメッセージ
         if($is_validated){
@@ -64,31 +67,47 @@ class ProfileController extends Controller
 
     public function secondPost(Request $request)
     {
-        //dd($request->awardImage);
-        // 入力値の取得
-        $second_post = $request->all(); // ここがダメっぽいです。
+        // 入力値の取得(画像ファイル以外)
+        $secondPost = $request->except('awardImage'); // 受賞タイトル、福利厚生タイトル/詳細、文化と価値タイトル/詳細
 
-        // 画像の保存先
-        $dir = 'img';
+        // 画像ファイルを取得
+        $onlyImage = $request->file('awardImage'); // 画像ファイル情報(name="awardImage")
+        
+        // 画像自体セッションい保存しようとしたが、Serialization of 'Illuminate\Http\UploadedFile' is not allowed
+        // 画像を先に保存しておき、セッションにはファイルパスのみ保持するようにした
+        // ※途中で入力を止めたり、上手く登録できなかった場合の処理は考慮されていないため、
+        // その処理も加える必要がある。現時点では未実装
+        if($onlyImage){
+            foreach($onlyImage as $fileName){
+                // 画像ファイル名を取得
+                $path = $fileName->getClientOriginalName();
+                // セッションにファイル名を保存
+                $filePath[] = $path;
+            
+                // 取得したファイル名でawardImg直下に画像を保存
+                $result = $fileName->storeAs('awardImg', $path);
+            }
+            // セッションに保存(画像のファイル名)
+            // dd($filePath);
+            session()->put('file_name', $filePath);
+        }
 
-        // セッションに保存
-        $request->session()->put('key2', $second_post);
-        //dd($second_post);
-
-        // 次の入力画面に移動
+        // セッションに保存(画像ファイル以外)
+        session()->put('except_image', $secondPost);
+        
+        // 確認画面に移動
         return redirect()->route('company.profile.confirm');
     }
     
     public function confirm(Request $request)
     {
-        $input = $request->session()->get('key');
-        $input2 = $request->session()->get('key2');
+        $key = $request->session()->get('key');
+        $exceptImageFile = $request->session()->get('except_image');
+        $imageFileName = $request->session()->get('file_name');
+        $imageFile = $request->session()->get('image_file');
 
-        if(!$input || !$input2){
-            return redirect()->route('company.profile.create');
-        }
-        //var_dump($input);
-        return view('company.profile.confirm', compact('input', 'input2'));
+        //dd($exceptImageFile['awardTitle']);
+        return view('company.profile.confirm', compact('key', 'exceptImageFile', 'imageFileName', 'imageFile'));
     }
 
     /**
@@ -99,24 +118,76 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
-        $input = $request->session()->get('key');
-        $input2 = $request->session()->get('key2');
-        dd($input2->awardImage, 'aaaaaaaaaaa');
+        // インスタンス生成
+        $award = new AwardsAndAccreditations();
+        $culture = new CultureAndValues();
+        $benefit = new Benefits();
+
+        $basicInfo = $request->session()->get('key'); // companiesテーブルの内容 
+        $exceptImageInfo = $request->session()->get('except_image'); // 受賞タイトル、文化と価値、福利厚生テーブル
+        $imagePath = $request->session()->get('file_name'); // ファイルパスを取得
+        //dd($basicInfo);
 
         // 登録処理
-        DB::transaction(function() use($request){
-            foreach($request->title as $title){
-                if(!isset($title->awardImage)){ $title->awardImage = null; }
-                AwardsAndAccreditationsDB::create([
-                    'company_id' => Auth::id(),
-                    'title' => $title->awardTitle,
-                    'image' => $title->awardImage,
-                ]);
+        DB::transaction(function() use($basicInfo, $exceptImageInfo, $imagePath, $award, $culture, $benefit){
+            // Companyテーブルの更新
+            Company::where('id', '=', Auth::id())->update([
+                'name' => $basicInfo['name'],
+                'email' => $basicInfo['email'],
+                'password' => 'password',
+                'address' => $basicInfo['address'],
+                'phone_number' => $basicInfo['phone_number'],
+                'url' => $basicInfo['url'],
+                'industry' => $basicInfo['industry'],
+                'company_size' => $basicInfo['company_size'],
+                'specialities' => $basicInfo['speciality'],
+                'our_mission_statement' => $basicInfo['mission'],
+                'featured' => $basicInfo['featured'],
+                'other' => $basicInfo['other'],
+            ]);
+            
+            // 受賞タイトルテーブルを更新
+            if(!empty($exceptImageInfo['awardTitle'])){
+                foreach($exceptImageInfo['awardTitle'] as $awardTitle){
+                    foreach($imagePath as $awardImage){
+                        $award->company_id = Auth::id();
+                        $award->title = $awardTitle;
+                        $award->image = $awardImage;
+                    }
+                }
+                //dd($awardImage);
             }
+            $award->save();
+
+            // 文化と価値テーブルを更新
+            if(isset($exceptImageInfo['cultureTitle'])){
+                foreach($exceptImageInfo['cultureTitle'] as $cultureTitle){
+                    foreach($exceptImageInfo['cultureDetail'] as $cultureDetail){
+                        $culture->company_id = Auth::id();
+                        $culture->title = $cultureTitle;
+                        $culture->detail = $cultureDetail;
+                    }
+                }
+            }
+            $culture->save();
+
+            // 福利厚生テーブルを更新 
+            if(isset($exceptImageInfo['benefitTitle'])){
+                foreach($exceptImageInfo['benefitTitle'] as $benefitTitle){
+                    foreach($exceptImageInfo['benefitDetail'] as $benefitDetail)
+                        $benefit->company_id = Auth::id();
+                        $benefit->title = $benefitTitle;
+                        $benefit->detail = $benefitDetail;
+                }
+            }
+            $benefit->save();
         });
+
         // セッションを空にする
-        $forget = $request->session()->forget('key');
-        $forget2 = $request->session()->forget('key2');
+        $request->session()->forget('key');
+        $request->session()->forget('except_image');
+        $request->session()->forget('file_name');
+        $request->session()->forget('image_file');        
 
         return redirect()->route('company.dashboard');
     }
