@@ -14,42 +14,113 @@
             <form id="next" method="POST" action="{{ route('company.profile.second') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="-m-2">
-                {{-- 受賞タイトル名と画像を入力 --}}
-                <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative" id="awardsBaseForm">
-                        <label for="awardTitle" class="leading-7 text-sm text-gray-600">Awards and Accreditations</label>
-                        <input type="text" id="awardTitle" name="awardTitle[]" value="{{ old('awardTitle') }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                        <input type="file" id="awardImage" name="awardImage[]" />
+                    {{-- 受賞タイトル入力フォームの追加 --}}
+                    <div class="col-span-6 sm:col-span-6">
+                        <label for="awardTitle" class="leading-7 text-lg text-gray-600">Awards and accreditations</label>
+                        <table class="mt-5">
+                            <thead>
+                                <tr class="">
+                                    <th class="text-left">Award title</th>
+                                    <th class="text-left">Atached Image</th>
+                                </tr>
+                            </thead>
+                            @if ($awards)
+                            @foreach ($awards as $award)                    
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="awardTitle[]" id="awardTitle" autocomplete="awardTitle" value="{{ $award->title }}" class="mt-1 block w-1/2 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></td>
+                                        <td><input type="file" id="awardImage" name="awardImage[]" /></td>
+                                    </tr>
+                                </tbody>    
+                            @endforeach
+                            @endif
+
+                            <tbody id="award">
+                                <tr>
+                                    <td><input type="text" name="awardTitle[]" id="awardTitle" autocomplete="awardTitle" value="{{ old('awardTitle') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></td>
+                                    <td><input type="file" id="awardImage" name="awardImage[]" class="" /></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td><input id="addAward" type="button" onclick="addElements()" value="add" class="addAwards mt-5 border-t-2"></td>
+                                    {{-- <td><input type="button" onclick="deleteAwardsForm()" value="delete" class="addAwards mt-5 border-t-2"></td> --}}
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
-                    <input type="button" onclick="addAwardsForm()" value="add" class="addAwards mt-5 border-t-2">
-                </div>
-                {{-- 文化と価値タイトルと詳細を入力 --}}
-                <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative" id="cultureBaseForm">
-                    <label for="cultureTitle" class="leading-7 text-sm text-gray-600">Culture and values</label>
-                    <input type="text" id="cultureTitle" name="cultureTitle[]" value="{{ old('cultureTitle') }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                    <input type="text" id="cultureDetail" name="cultureDetail[]" value="{{ old('cultureDetail') }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                
+                    {{-- 文化と価値入力フォームの追加 --}}
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="cultureTitle" class="leading-7 text-lg text-gray-600">Culture and values</label>
+                        <table class="mt-5">
+                            <thead>
+                                <tr class="">
+                                    <th class="text-left">Culture title</th>
+                                    <th class="text-left">Culture detail</th>
+                                </tr>
+                            </thead>
+                            @if ($cultures)
+                            @foreach ($cultures as $culture)                    
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="cultureTitle[]" id="cultureTitle" autocomplete="cultureTitle" value="{{ $culture->title }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></td>
+                                        <td><textarea id="cultureDetail" name="cultureDetail[]" autocomplete="cultureDetail" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ $culture->detail }}</textarea></td>
+                                    </tr>
+                                </tbody>    
+                            @endforeach
+                            @endif
+
+                            <tbody id="culture">
+                                <tr>
+                                    <td><input type="text" name="cultureTitle[]" id="cultureTitle" autocomplete="cultureTitle" value="{{ old('cultureTitle') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></td>
+                                    <td><textarea id="cultureDetail" name="cultureDetail[]" autocomplete="cultureDetail" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ old('cultureDetail') }}</textarea></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td><input id="addCulture" type="button" onclick="addElements()" value="add" class="addAwards mt-5 border-t-2"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
-                    <input type="button" onclick="addCultureForm()" value="add" class="addAwards mt-5 border-t-2">
-                </div>
-                {{-- 福利厚生タイトルと詳細を入力 --}}
-                <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative" id="benefitBaseForm">
-                        <label for="benefitTitle" class="leading-7 text-sm text-gray-600">Benefits</label>
-                        <input type="text" id="benefitTitle" name="benefitTitle[]" value="{{ old('benefitTitle') }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                        <input type="text" id="benefitDetail" name="benefitDetail[]" value="{{ old('benefitDetail') }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+
+                    {{-- 福利厚生フォームを追加 --}}
+                    <div class="col-span-6 sm:col-span-3">
+                        <label for="benefitTitle" class="leading-7 text-lg text-gray-600">Benefits</label>
+                        <table class="mt-5">
+                            <thead>
+                                <tr class="">
+                                    <th class="text-left">Benefit title</th>
+                                    <th class="text-left">Benefit detail</th>
+                                </tr>
+                            </thead>
+                            @if ($benefits)
+                            @foreach ($benefits as $benefit)                    
+                                <tbody>
+                                    <tr>
+                                        <td><input type="text" name="benefitTitle[]" id="benefitTitle" autocomplete="benefitTitle" value="{{ $benefit->title }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></td>
+                                        <td><textarea id="benefitDetail" name="benefitDetail[]" autocomplete="benefitDetail" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ $benefit->detail }}</textarea></td>
+                                    </tr>
+                                </tbody>    
+                            @endforeach
+                            @endif
+
+                            <tbody id="benefit">
+                                <tr>
+                                    <td><input type="text" name="benefitTitle[]" id="benefitTitle" autocomplete="benefitTitle" value="{{ old('benefitTitle') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></td>
+                                    <td><textarea id="benefitDetail" name="benefitDetail[]" autocomplete="benefitDetail" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">{{ old('benefitDetail') }}</textarea></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td><input id="addBenefit" type="button" onclick="addElements();" value="add" class="addAwards mt-5 border-t-2"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
-                    <input type="button" onclick="addBenefitForm()" value="add" class="addAwards mt-5 border-t-2">
-                </div>
-                {{-- <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative">
-                    <label for="images" class="leading-7 text-sm text-gray-600">Images</label>
-                    <input type="text" id="images" name="images" value="{{ old('images') }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                    </div>
-                    <input type="button" onclick="addImageTitle()" value="add" class="addAwards mt-5 border-t-2">
-                </div> --}}
                 <div class="p-2 w-full">
-                    <button type="hidden" id="next" name="pageFlag" value="2" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Next2</button>
+                    <button type="hidden" id="next" name="pageFlag" value="2" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Confirm</button>
                 </div>
                 </div>
             </form>
@@ -60,72 +131,72 @@
 
 <script>
 
-    // 受賞タイトルを追加した時
-    function addAwardsForm(){ 
-        var input_title = document.createElement('input');
-        input_title.id = 'awardTitle';
-        input_title.type = 'text';
-        input_title.name = 'awardTitle[]';
-        input_title.class = 'w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out';
-        
-        var parent = document.getElementById('awardsBaseForm');
-        parent.appendChild(input_title);
+    // 各入力フォームの追加
+    function addElements(){
 
-        var input_image = document.createElement('input');
-        input_image.id = 'awardImage';
-        input_image.type = 'file';
-        input_image.name = 'awardImage[]';
-        input_image.class = ''
+        // 追加する要素idを取得
+        var id = event.target.id;
 
-        var parent = document.getElementById('awardsBaseForm');
-        parent.appendChild(input_image);
-    }
+        var content = '';
+        var inputImage = '';
 
-    // 文化と価値を追加した時    
-    function addCultureForm(){
-        var input_title = document.createElement('input');
-        input_title.id = 'cultureTitle';
-        input_title.type = 'text';
-        input_title.name = 'cultureTitle[]';
-        input_title.class = 'w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out';
-        
-        var parent = document.getElementById('cultureBaseForm');
-        parent.appendChild(input_title);
+        // 追加する要素の作成
+        var inputTitle = document.createElement('input');
+        var textarea = document.createElement('textarea');
+        var td1 = document.createElement('td');
+        var td2 = document.createElement('td');
+        var tr = document.createElement('tr');
 
-        var input_image = document.createElement('input');
-        input_image.id = 'cultureDetail';
-        input_image.type = 'text';
-        input_image.name = 'cultureDetail[]';
-        input_image.class = ''
+        // idの判別
+        if(id == 'addAward'){
+            content = document.getElementById('award');
+            inputTitle.id = 'awardTitle';
+            inputTitle.type = 'text';
+            inputTitle.name = 'awardTitle[]';
+            inputTitle.className = 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm';
 
-        var parent = document.getElementById('cultureBaseForm');
-        parent.appendChild(input_image);
-    }
-    
-    // 福利厚生を追加した時
-    function addBenefitForm(){
-        var input_title = document.createElement('input');
-        input_title.id = 'benefitTitle';
-        input_title.type = 'text';
-        input_title.name = 'benefitTitle[]';
-        input_title.class = 'w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out';
-        
-        var parent = document.getElementById('benefitBaseForm');
-        parent.appendChild(input_title);
+            // <input>要素(画像)に属性を追加
+            inputImage = document.createElement('input');
+            inputImage.id = 'awardImage';
+            inputImage.type = 'file';
+            inputImage.name = 'awardImage[]';
+            inputImage.className = "";
+        }else if(id == 'addCulture'){
+            content = document.getElementById('culture');
+            inputTitle.id = 'cultureTitle';
+            inputTitle.type = 'text';
+            inputTitle.name = 'cultureTitle[]';
+            inputTitle.className = 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm';
 
-        var input_image = document.createElement('input');
-        input_image.id = 'benefitDetail';
-        input_image.type = 'text';
-        input_image.name = 'benefitDetail[]';
-        input_image.class = ''
+            textarea.id = 'cultureDetail';
+            textarea.name = 'cultureDetail[]';
+            textarea.className = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm";
+        }else{
+            content = document.getElementById('benefit');
+            inputTitle.id = 'benefitTitle';
+            inputTitle.type = 'text';
+            inputTitle.name = 'benefitTitle[]';
+            inputTitle.className = 'mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm';
 
-        var parent = document.getElementById('benefitBaseForm');
-        parent.appendChild(input_image);
-    }
+            textarea.id = 'benefitDetail';
+            textarea.name = 'benefitDetail[]';
+            textarea.className = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm";
+        }
 
-    // 写真を追加した時
-    function addImageForm(){
-        document.getElementByClassName('');
+        // <input>要素を<td>に追加
+        td1.appendChild(inputTitle);
+
+        if(id == 'addAward'){
+            td2.appendChild(inputImage);
+        }else{
+            td2.appendChild(textarea);
+        }
+
+        // <tr>要素をtdに追加
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+
+        content.appendChild(tr);
     }
 
 </script>

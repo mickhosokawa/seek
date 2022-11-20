@@ -25,17 +25,17 @@ class ProfileFirstRequest extends FormRequest
     {
         // 未実装
         return [
-            'name' => 'required | ',
-            'email' => 'required | regex:/^.+@.+$/i',
-            'address' => 'required | min:10',
-            'phone_number' => 'required |',
-            'url' => 'url',
-            'industry' => 'required |', // 業界を選択させたい
-            'company_size' => 'required | ', // 範囲選択させたい
-            'speciality' => 'required | ', 
-            'mission' => 'required |',
-            'featured' => 'required |',
-            'other' => '',
+            'name' => 'required',
+            // 'email' => 'required | regex:/^.+@.+$/i',
+            // 'address' => 'required | min:10',
+            // 'phone_number' => 'required',
+            // 'url' => 'url',
+            // 'industry' => 'required', // 業界を選択させたい
+            // 'company_size' => 'required', // 範囲選択させたい
+            // 'speciality' => 'required', 
+            // 'mission' => 'required',
+            // 'featured' => 'required',
+            // 'other' => '',
         ];
     }
 }

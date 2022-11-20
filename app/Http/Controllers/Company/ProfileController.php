@@ -37,13 +37,11 @@ class ProfileController extends Controller
 
     public function firstPost(ProfileFirstRequest $request)
     {
-        
         // 入力値の取得
         $first_post = $request->all();
 
         // 入力チェック
         $is_validated = $request->validated();
-        //dd($is_validated);
 
         // フラッシュメッセージ
         if($is_validated){
@@ -62,7 +60,20 @@ class ProfileController extends Controller
 
     public function createSecond(Request $request)
     {
-        return view('company.profile.second');
+        $awards = AwardsAndAccreditations::where('company_id', '=', Auth::id())
+                                    ->orderBy('id', 'asc')
+                                    ->get();
+        
+        $cultures = CultureAndValues::where('company_id', '=', Auth::id())
+                                ->orderBy('id', 'asc')
+                                ->get();
+
+        $benefits = Benefits::where('company_id', '=', Auth::id())
+                                ->orderBy('id', 'asc')
+                                ->get();
+        
+        
+        return view('company.profile.second', compact('awards', 'cultures', 'benefits'));
     }
 
     public function secondPost(Request $request)
@@ -90,6 +101,8 @@ class ProfileController extends Controller
             // セッションに保存(画像のファイル名)
             // dd($filePath);
             session()->put('file_name', $filePath);
+        }else{
+            $path = 'No image';
         }
 
         // セッションに保存(画像ファイル以外)
@@ -126,37 +139,46 @@ class ProfileController extends Controller
         $basicInfo = $request->session()->get('key'); // companiesテーブルの内容 
         $exceptImageInfo = $request->session()->get('except_image'); // 受賞タイトル、文化と価値、福利厚生テーブル
         $imagePath = $request->session()->get('file_name'); // ファイルパスを取得
-        //dd($basicInfo);
+        $test[] = '';
+
+        // nullの場合を考慮する必要がある
+        dd(count($imagePath));
+        foreach($imagePath as $path)
+            if(is_null($path)){
+                $path = 'No image';
+                $test[] = $path;
+            }else{
+                $test[] = $path;
+            }
 
         // 登録処理
-        DB::transaction(function() use($basicInfo, $exceptImageInfo, $imagePath, $award, $culture, $benefit){
+        DB::transaction(function() use($basicInfo, $exceptImageInfo, $imagePath, $award, $culture, $benefit, $test){
             // Companyテーブルの更新
+            // 文字列の先頭、末尾の余白を削除
             Company::where('id', '=', Auth::id())->update([
-                'name' => $basicInfo['name'],
-                'email' => $basicInfo['email'],
-                'password' => 'password',
-                'address' => $basicInfo['address'],
-                'phone_number' => $basicInfo['phone_number'],
-                'url' => $basicInfo['url'],
-                'industry' => $basicInfo['industry'],
-                'company_size' => $basicInfo['company_size'],
-                'specialities' => $basicInfo['speciality'],
-                'our_mission_statement' => $basicInfo['mission'],
-                'featured' => $basicInfo['featured'],
-                'other' => $basicInfo['other'],
+                'name' => trim($basicInfo['name']),
+                'email' => trim($basicInfo['email']),
+                //'password' => trim('password'),
+                'address' => trim($basicInfo['address']),
+                'phone_number' => trim($basicInfo['phone_number']),
+                'url' => trim($basicInfo['url']),
+                'industry' => trim($basicInfo['industry']),
+                'company_size' => trim($basicInfo['company_size']),
+                'specialities' => trim($basicInfo['speciality']),
+                'our_mission_statement' => trim($basicInfo['mission']),
+                'featured' => trim($basicInfo['featured']),
+                'other' => trim($basicInfo['other']),
             ]);
             
             // 受賞タイトルテーブルを更新
+            dd($exceptImageInfo['awardTitle'], $test);
             if(!empty($exceptImageInfo['awardTitle'])){
                 foreach($exceptImageInfo['awardTitle'] as $awardTitle){
-                    foreach($imagePath as $awardImage){
-                        $award->company_id = Auth::id();
-                        $award->title = $awardTitle;
-                        $award->image = $awardImage;
-                    }
+                    $award->company_id = Auth::id();
+                    $award->title = $awardTitle;
                 }
-                //dd($awardImage);
             }
+
             $award->save();
 
             // 文化と価値テーブルを更新
@@ -172,6 +194,7 @@ class ProfileController extends Controller
             $culture->save();
 
             // 福利厚生テーブルを更新 
+            //dd($exceptImageInfo['benefitDetail']);
             if(isset($exceptImageInfo['benefitTitle'])){
                 foreach($exceptImageInfo['benefitTitle'] as $benefitTitle){
                     foreach($exceptImageInfo['benefitDetail'] as $benefitDetail)
