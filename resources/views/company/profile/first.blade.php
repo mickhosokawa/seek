@@ -19,6 +19,15 @@
                     @csrf
                   <div class="overflow-hidden shadow sm:rounded-md">
                     <div class="bg-white px-4 py-5 sm:p-6">
+                        @if($errors->any())
+                        <div class="alert alert-danger mb-10">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li class="text-red-600">{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                       <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6 sm:col-span-3">
                           <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
@@ -74,7 +83,7 @@
                             <label for="other" class="block text-sm font-medium text-gray-700">Other</label>
                             <textarea rows="4" name="other" id="other" autocomplete="other" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">@if(isset($company->other)){{ $company->other }}@else{{ old('other') }}@endif</textarea>
                         </div>
-                    </div> 
+                       </div> 
 
                         <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
                         <button type="hidden" id="next" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Next</button>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Company\ProfileFirstRequest;
+use App\Http\Requests\Company\SecondPostRequest;
 use Illuminate\Validation\Validator;
 use App\Models\Company;
 use App\Models\Company\AwardsAndAccreditations;
@@ -42,6 +43,7 @@ class ProfileController extends Controller
 
         // 入力チェック
         $is_validated = $request->validated();
+        //dd($is_validated);
 
         // フラッシュメッセージ
         if($is_validated){
@@ -60,10 +62,12 @@ class ProfileController extends Controller
 
     public function createSecond(Request $request)
     {
+        //dd('aaa');
         $awards = AwardsAndAccreditations::where('company_id', '=', Auth::id())
                                     ->orderBy('id', 'asc')
                                     ->get();
-        
+        $awardTest = AwardsAndAccreditations::where('company_id', '=', Auth::id())->orderBy('id', 'asc');
+        dd($awardTest->toSql(), $awardTest->getBindings());
         $cultures = CultureAndValues::where('company_id', '=', Auth::id())
                                 ->orderBy('id', 'asc')
                                 ->get();
@@ -72,39 +76,38 @@ class ProfileController extends Controller
                                 ->orderBy('id', 'asc')
                                 ->get();
         
-        
         return view('company.profile.second', compact('awards', 'cultures', 'benefits'));
     }
 
-    public function secondPost(Request $request)
+    public function secondPost(SecondPostRequest $request)
     {
+        //dd('bbb');
         // 入力値の取得(画像ファイル以外)
         $secondPost = $request->except('awardImage'); // 受賞タイトル、福利厚生タイトル/詳細、文化と価値タイトル/詳細
 
         // 画像ファイルを取得
         $onlyImage = $request->file('awardImage'); // 画像ファイル情報(name="awardImage")
         
-        // 画像自体セッションい保存しようとしたが、Serialization of 'Illuminate\Http\UploadedFile' is not allowed
-        // 画像を先に保存しておき、セッションにはファイルパスのみ保持するようにした
-        // ※途中で入力を止めたり、上手く登録できなかった場合の処理は考慮されていないため、
-        // その処理も加える必要がある。現時点では未実装
+        //dd($request);
+        $test = $request->validated();
+        
+        // DBに保存する画像ファイル名を作成する
         if($onlyImage){
             foreach($onlyImage as $fileName){
                 // 画像ファイル名を取得
                 $path = $fileName->getClientOriginalName();
                 // セッションにファイル名を保存
                 $filePath[] = $path;
-            
+                
                 // 取得したファイル名でawardImg直下に画像を保存
                 $result = $fileName->storeAs('awardImg', $path);
             }
             // セッションに保存(画像のファイル名)
-            // dd($filePath);
             session()->put('file_name', $filePath);
         }else{
-            $path = 'No image';
-        }
 
+        }
+        
         // セッションに保存(画像ファイル以外)
         session()->put('except_image', $secondPost);
         
@@ -112,14 +115,15 @@ class ProfileController extends Controller
         return redirect()->route('company.profile.confirm');
     }
     
-    public function confirm(Request $request)
+    public function confirm(SecondPostRequest $request)
     {
+        dd('error in confirm');
         $key = $request->session()->get('key');
         $exceptImageFile = $request->session()->get('except_image');
         $imageFileName = $request->session()->get('file_name');
         $imageFile = $request->session()->get('image_file');
 
-        //dd($exceptImageFile['awardTitle']);
+        dd($exceptImageFile['awardTitle']);
         return view('company.profile.confirm', compact('key', 'exceptImageFile', 'imageFileName', 'imageFile'));
     }
 
@@ -131,6 +135,7 @@ class ProfileController extends Controller
      */
     public function store(Request $request)
     {
+        dd('error in store method');
         // インスタンス生成
         $award = new AwardsAndAccreditations();
         $culture = new CultureAndValues();
@@ -141,16 +146,6 @@ class ProfileController extends Controller
         $imagePath = $request->session()->get('file_name'); // ファイルパスを取得
         $test[] = '';
 
-        // nullの場合を考慮する必要がある
-        dd(count($imagePath));
-        foreach($imagePath as $path)
-            if(is_null($path)){
-                $path = 'No image';
-                $test[] = $path;
-            }else{
-                $test[] = $path;
-            }
-
         // 登録処理
         DB::transaction(function() use($basicInfo, $exceptImageInfo, $imagePath, $award, $culture, $benefit, $test){
             // Companyテーブルの更新
@@ -158,7 +153,6 @@ class ProfileController extends Controller
             Company::where('id', '=', Auth::id())->update([
                 'name' => trim($basicInfo['name']),
                 'email' => trim($basicInfo['email']),
-                //'password' => trim('password'),
                 'address' => trim($basicInfo['address']),
                 'phone_number' => trim($basicInfo['phone_number']),
                 'url' => trim($basicInfo['url']),
@@ -171,14 +165,15 @@ class ProfileController extends Controller
             ]);
             
             // 受賞タイトルテーブルを更新
-            dd($exceptImageInfo['awardTitle'], $test);
             if(!empty($exceptImageInfo['awardTitle'])){
                 foreach($exceptImageInfo['awardTitle'] as $awardTitle){
-                    $award->company_id = Auth::id();
-                    $award->title = $awardTitle;
+                    foreach ($imagePath as $fileName) {
+                        $award->company_id = Auth::id();
+                        $award->title = $awardTitle;
+                        $award->image = $fileName;
+                    }
                 }
             }
-
             $award->save();
 
             // 文化と価値テーブルを更新
@@ -194,7 +189,6 @@ class ProfileController extends Controller
             $culture->save();
 
             // 福利厚生テーブルを更新 
-            //dd($exceptImageInfo['benefitDetail']);
             if(isset($exceptImageInfo['benefitTitle'])){
                 foreach($exceptImageInfo['benefitTitle'] as $benefitTitle){
                     foreach($exceptImageInfo['benefitDetail'] as $benefitDetail)

@@ -14,6 +14,16 @@
             <form id="next" method="POST" action="{{ route('company.profile.second') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="-m-2">
+                    {{-- {{dd('error in second.blade.php')}} --}}
+                    @if($errors->any())
+                        <div class="alert alert-danger mb-10">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li class="text-red-600">{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     {{-- 受賞タイトル入力フォームの追加 --}}
                     <div class="col-span-6 sm:col-span-6">
                         <label for="awardTitle" class="leading-7 text-lg text-gray-600">Awards and accreditations</label>
@@ -24,6 +34,7 @@
                                     <th class="text-left">Atached Image</th>
                                 </tr>
                             </thead>
+                            {{-- {{dd($awards)}} --}}
                             @if ($awards)
                             @foreach ($awards as $award)                    
                                 <tbody>
@@ -34,17 +45,19 @@
                                 </tbody>    
                             @endforeach
                             @endif
-
+                            {{-- {{dd($awards)}} --}}
+                            
                             <tbody id="award">
                                 <tr>
                                     <td><input type="text" name="awardTitle[]" id="awardTitle" autocomplete="awardTitle" value="{{ old('awardTitle') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></td>
                                     <td><input type="file" id="awardImage" name="awardImage[]" class="" /></td>
                                 </tr>
                             </tbody>
+                
                             <tfoot>
                                 <tr>
-                                    <td><input id="addAward" type="button" onclick="addElements()" value="add" class="addAwards mt-5 border-t-2"></td>
-                                    {{-- <td><input type="button" onclick="deleteAwardsForm()" value="delete" class="addAwards mt-5 border-t-2"></td> --}}
+                                    <td><input id="addAward" type="button" onclick="addElements();" value="add" class="addAwards mt-5 border-t-2"></td>
+                                    <td><input id="deleteAward" type="button" onclick="deleteElements();" value="delete" class="addAwards mt-5 border-t-2"></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -60,6 +73,7 @@
                                     <th class="text-left">Culture detail</th>
                                 </tr>
                             </thead>
+                            {{-- {{dd($cultures)}} --}}
                             @if ($cultures)
                             @foreach ($cultures as $culture)                    
                                 <tbody>
@@ -80,6 +94,7 @@
                             <tfoot>
                                 <tr>
                                     <td><input id="addCulture" type="button" onclick="addElements()" value="add" class="addAwards mt-5 border-t-2"></td>
+                                    <td><input id="deleteCulture" type="button" onclick="deleteElements()" value="delete" class="addAwards mt-5 border-t-2"></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -95,6 +110,7 @@
                                     <th class="text-left">Benefit detail</th>
                                 </tr>
                             </thead>
+                            {{-- {{dd($benefits)}} --}}
                             @if ($benefits)
                             @foreach ($benefits as $benefit)                    
                                 <tbody>
@@ -114,7 +130,8 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td><input id="addBenefit" type="button" onclick="addElements();" value="add" class="addAwards mt-5 border-t-2"></td>
+                                    <td><input id="addBenefit" type="button" onclick="addElements()" value="add" class="addAwards mt-5 border-t-2"></td>
+                                    <td><input id="addBenefit" type="button" onclick="deleteElements()" value="delete" class="addAwards mt-5 border-t-2"></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -197,6 +214,37 @@
         tr.appendChild(td2);
 
         content.appendChild(tr);
+    }
+
+    // 各入力フォームの削除
+    function deleteElements(){
+
+        // 追加する要素idを取得
+        var id = event.target.id;
+
+        // 削除対象のidと要素
+        var targetId = '';
+        var deleteElement = '';
+
+        if(id === 'deleteAward'){
+            targetId = document.querySelector('#award');
+            deleteElement = targetId.querySelectorAll('td').length;    
+        }else if(id === 'deleteCulture'){
+            targetId = document.querySelector('#culture');
+            deleteElement = targetId.querySelectorAll('td').length;    
+        }else{
+            targetId = document.querySelector('#benefit');
+            deleteElement = targetId.querySelectorAll('td').length;    
+        }
+
+        if(deleteElement === 0){
+            return;
+        }else{
+            console.log(deleteElement);
+            console.log(document.getElementById(targetId.id));
+            const deleteTarget = document.getElementById(targetId.id).lastElementChild;
+            deleteTarget.remove();
+        }
     }
 
 </script>
