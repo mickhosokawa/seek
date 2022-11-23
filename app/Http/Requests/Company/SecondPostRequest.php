@@ -25,16 +25,16 @@ class SecondPostRequest extends FormRequest
     public function rules()
     {
         return [
-            'awardTitle' => 'max:50 | array',
-            'awardTitle.*' => 'max:50 | string',
-            'cultureTitle' => 'max:50 | array',
-            'cultureTitle.*' => 'max:50 | string', 
-            'cultureDetail' => 'max:100 | array',
-            'cultureDetail.*' => 'max:100 | string',
-            'benefitTitle' => 'max:50 | array', 
-            'benefitTitle.*' => 'max:50 | string',
-            'benefitDetail' => 'max:100 | array', 
-            'benefitDetail.*' => 'max:100 | string', 
+            // 'awardTitle' => 'max:50|array|nullable',
+            // 'awardTitle.*' => 'max:50|string|nullable',
+            // 'cultureTitle' => 'max:50|array|nullable',
+            // 'cultureTitle.*' => 'max:50|string|nullable', 
+            // 'cultureDetail' => 'max:100|array|required_with:cultureTitle|nullable',
+            // 'cultureDetail.*' => 'max:100|string|nullable|required_with:cultureTitle.*',
+            // 'benefitTitle' => 'max:50|array|nullable', 
+            // 'benefitTitle.*' => 'max:50|string|nullable',
+            // 'benefitDetail' => 'max:100|array|required_with:benefitTitle|nullable', 
+            // 'benefitDetail.*' => 'max:100|string|nullable|required_with:benefitTitle.*', 
         ];
     }
 
@@ -45,11 +45,16 @@ class SecondPostRequest extends FormRequest
     public function attributes()
     {
         return [
-            'awardTitle.*' => 'Award title',
-            'cultureTitle.*' => 'Culture title',
-            'cultureDetail.*' => 'Culture detail',
-            'benefitTitle.*' => 'Benefit title',
-            'benefitDetail.*' => 'Benefit detail',
+            // 'awardTitle' => 'Award title',
+            // 'awardTitle.*' => 'Award title',
+            // 'cultureTitle.*' => 'Culture title',
+            // 'cultureDetail.*' => 'Culture detail',
+            // 'cultureTitle' => 'Culture title',
+            // 'cultureDetail' => 'Culture detail',
+            // 'benefitTitle.*' => 'Benefit title',
+            // 'benefitDetail.*' => 'Benefit detail',
+            // 'benefitTitle' => 'Benefit title',
+            // 'benefitDetail' => 'Benefit detail',
         ];
     }
 
@@ -60,11 +65,16 @@ class SecondPostRequest extends FormRequest
     public function messages()
     {
         return [
-            'awardTitle.*.max' => ':attribute is 50 word limit',
-            'cultureTitle.*.max' => ':attribute is 50 word limit',
-            'cultureDetail.*.max' => 'C:attribute is 100 word limit',
-            'benefitTitle.*.max' => ':attribute is 50 word limit',
-            'benefitDetail.*.max' => 'B:attribute is 100 word limit',
+            // 'awardTitle.*.max' => ':attribute is 50 word limit',
+            // 'cultureTitle.*.max' => ':attribute is 50 word limit',
+            // 'cultureDetail.*.max' => 'C:attribute is 100 word limit',
+            // 'benefitTitle.*.max' => ':attribute is 50 word limit',
+            // 'benefitDetail.*.max' => 'B:attribute is 100 word limit',
+            // 'awardTitle.max' => ':attribute is 50 word limit',
+            // 'cultureTitle.max' => ':attribute is 50 word limit',
+            // 'cultureDetail.max' => 'C:attribute is 100 word limit',
+            // 'benefitTitle.max' => ':attribute is 50 word limit',
+            // 'benefitDetail.max' => 'B:attribute is 100 word limit',
         ];
     }
 }
