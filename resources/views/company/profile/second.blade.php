@@ -14,16 +14,6 @@
             <form id="next" method="POST" action="{{ route('company.profile.second') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="-m-2">
-                    {{-- {{dd('error in second.blade.php')}} --}}
-                    @if($errors->any())
-                        <div class="alert alert-danger mb-10">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li class="text-red-600">{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
                     {{-- 受賞タイトル入力フォームの追加 --}}
                     <div class="col-span-6 sm:col-span-6">
                         <label for="awardTitle" class="leading-7 text-lg text-gray-600">Awards and accreditations</label>
@@ -34,7 +24,6 @@
                                     <th class="text-left">Atached Image</th>
                                 </tr>
                             </thead>
-                            {{-- {{dd($awards)}} --}}
                             @if ($awards)
                             @foreach ($awards as $award)                    
                                 <tbody>
@@ -45,7 +34,6 @@
                                 </tbody>    
                             @endforeach
                             @endif
-                            {{-- {{dd($awards)}} --}}
                             
                             <tbody id="award">
                                 <tr>
@@ -73,7 +61,6 @@
                                     <th class="text-left">Culture detail</th>
                                 </tr>
                             </thead>
-                            {{-- {{dd($cultures)}} --}}
                             @if ($cultures)
                             @foreach ($cultures as $culture)                    
                                 <tbody>
@@ -110,7 +97,6 @@
                                     <th class="text-left">Benefit detail</th>
                                 </tr>
                             </thead>
-                            {{-- {{dd($benefits)}} --}}
                             @if ($benefits)
                             @foreach ($benefits as $benefit)                    
                                 <tbody>
@@ -152,7 +138,7 @@
     function addElements(){
 
         // 追加する要素idを取得
-        var id = event.target.id;
+        var targetId = event.target.id;
 
         var content = '';
         var inputImage = '';
@@ -160,12 +146,12 @@
         // 追加する要素の作成
         var inputTitle = document.createElement('input');
         var textarea = document.createElement('textarea');
-        var td1 = document.createElement('td');
-        var td2 = document.createElement('td');
+        var tdInput = document.createElement('td'); // 各タイトルの<td>要素
+        var tdFileOrTextarea = document.createElement('td'); // 画像またはテキストエリア
         var tr = document.createElement('tr');
 
-        // idの判別
-        if(id == 'addAward'){
+        // idの判別し、適切な要素を挿入する
+        if(targetId == 'addAward'){
             content = document.getElementById('award');
             inputTitle.id = 'awardTitle';
             inputTitle.type = 'text';
@@ -178,7 +164,7 @@
             inputImage.type = 'file';
             inputImage.name = 'awardImage[]';
             inputImage.className = "";
-        }else if(id == 'addCulture'){
+        }else if(targetId == 'addCulture'){
             content = document.getElementById('culture');
             inputTitle.id = 'cultureTitle';
             inputTitle.type = 'text';
@@ -201,17 +187,17 @@
         }
 
         // <input>要素を<td>に追加
-        td1.appendChild(inputTitle);
+        tdInput.appendChild(inputTitle);
 
-        if(id == 'addAward'){
+        if(targetId == 'addAward'){
             td2.appendChild(inputImage);
         }else{
             td2.appendChild(textarea);
         }
 
         // <tr>要素をtdに追加
-        tr.appendChild(td1);
-        tr.appendChild(td2);
+        tr.appendChild(tdInput);
+        tr.appendChild(tdFileOrTextarea);
 
         content.appendChild(tr);
     }
@@ -226,6 +212,7 @@
         var targetId = '';
         var deleteElement = '';
 
+        // 取得したidの子要素数を取得
         if(id === 'deleteAward'){
             targetId = document.querySelector('#award');
             deleteElement = targetId.querySelectorAll('td').length;    
@@ -237,6 +224,7 @@
             deleteElement = targetId.querySelectorAll('td').length;    
         }
 
+        // 子要素がある場合のみ、要素を削除
         if(deleteElement === 0){
             return;
         }else{

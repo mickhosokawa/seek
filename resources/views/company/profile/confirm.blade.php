@@ -87,7 +87,7 @@
                         @foreach ($exceptImageFile['awardTitle'] as $imageFile)
                         <div class="p-2 w-1/2 mx-auto">
                             <div class="relative" id="awardsBaseForm">
-                            <label for="awardTitle" class="leading-7 text-sm text-gray-600">Awards and Accreditations</label>
+                            <label for="awardTitle" class="leading-7 text-sm text-gray-600">Award title</label>
                             <input type="text" id="awardTitle" name="awardTitle" value="{{ $imageFile }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                         @foreach ($exceptImageFile['cultureTitle'] as $cultureTitle)
                         <div class="p-2 w-1/2 mx-auto">
                             <div class="relative">
-                            <label for="cultureTitle" class="leading-7 text-sm text-gray-600">Culture and values</label>
+                            <label for="cultureTitle" class="leading-7 text-sm text-gray-600">Culture title</label>
                             <input type="text" id="cultureTitle" name="cultureTitle" value="{{ $cultureTitle }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                             </div>
                         </div>
@@ -111,7 +111,7 @@
                         @foreach ($exceptImageFile['cultureDetail'] as $cultureDetail)
                         <div class="p-2 w-1/2 mx-auto">
                             <div class="relative">
-                            <label for="cultureDetail" class="leading-7 text-sm text-gray-600">Culture and values</label>
+                            <label for="cultureDetail" class="leading-7 text-sm text-gray-600">Culture detail</label>
                             <input type="text" id="cultureDetail" name="cultureDetail" value="{{ $cultureDetail }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                             </div>
                         </div>
@@ -123,7 +123,7 @@
                         @foreach ($exceptImageFile['benefitTitle'] as $benefitTitle)
                         <div class="p-2 w-1/2 mx-auto">
                             <div class="relative">
-                            <label for="benefitTitle" class="leading-7 text-sm text-gray-600">Benefits</label>
+                            <label for="benefitTitle" class="leading-7 text-sm text-gray-600">Benefit title</label>
                             <input type="text" id="benefitTitle" name="benefitTitle" value="{{ $benefitTitle }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                             </div>
                         </div>
@@ -135,21 +135,14 @@
                         @foreach ($exceptImageFile['benefitDetail'] as $benefitDetail)
                         <div class="p-2 w-1/2 mx-auto">
                             <div class="relative">
-                            <label for="benefitDetail" class="leading-7 text-sm text-gray-600">Benefits</label>
+                            <label for="benefitDetail" class="leading-7 text-sm text-gray-600">Benefit detail</label>
                             <input type="text" id="benefitDetail" name="benefitDetail" value="{{ $benefitDetail }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                             </div>
                         </div>
                         @endforeach
                     @endif
-                
-                {{-- <div class="p-2 w-1/2 mx-auto">
-                    <div class="relative">
-                    <label for="images" class="leading-7 text-sm text-gray-600">Images</label>
-                    <input type="text" id="images" name="images" value="{{ $exceptImageFile["images"] }}" class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                    </div>
-                </div> --}}
                 <div class="p-2 w-full">
-                    <button type="hidden" id="next" name="pageFlag" value="2" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Next2</button>
+                    <button type="hidden" id="next" name="pageFlag" value="2" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Update</button>
                 </div>
                 </div>
             </form>

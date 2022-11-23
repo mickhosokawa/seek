@@ -19,6 +19,7 @@
                     @csrf
                   <div class="overflow-hidden shadow sm:rounded-md">
                     <div class="bg-white px-4 py-5 sm:p-6">
+                        {{-- バリデーションエラーを表示する --}}
                         @if($errors->any())
                         <div class="alert alert-danger mb-10">
                             <ul>
