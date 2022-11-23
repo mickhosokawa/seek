@@ -97,7 +97,7 @@ class ProfileController extends Controller
         // 画像ファイルを取得
         $onlyImage = $request->file('awardImage'); // 画像ファイル情報(name="awardImage")
         
-        $test = $request->validated();
+        //$request->validated();
         
         // DBに保存する画像ファイル名を作成する
         if($onlyImage){
