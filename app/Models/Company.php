@@ -2,6 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Company\AwardsAndAccreditations;
+use App\Models\Company\Benefits;
+use App\Models\Company\CultureAndValues;
+use App\Models\Company\Images;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\HumanResource;
@@ -56,6 +60,26 @@ class Company extends Authenticatable
     // 1つのCompanyは複数のJobOfferを持つ
     public function jobOffer(){
         return $this->hasMany(JobOffer::class);
+    }
+
+    // 受賞歴
+    public function awardsAndAccreditation(){
+        return $this->hasMany(AwardsAndAccreditations::class);
+    }
+
+    // 福利厚生
+    public function benefit(){
+        $this->hasMany(Benefits::class);
+    }
+
+    // 文化と価値
+    public function cultureAndValue(){
+        $this->hasMany(CultureAndValues::class);
+    }
+
+    // 画像
+    public function image(){
+        return $this->hasMany(Images::class);
     }
 
     // 企業情報登録
