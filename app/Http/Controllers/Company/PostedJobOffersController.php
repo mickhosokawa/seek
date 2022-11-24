@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Company;
 
+use App\Enums\JobType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\Classification;
 use App\Models\Company\JobOffer;
@@ -32,11 +34,14 @@ class PostedJobOffersController extends Controller
     {
         // 選択したidから求人情報を取得
         $jobOffer = JobOffer::find($id);
+        //dd($jobOffer);
+        // 各種マスタの取得
         $suburbs = Suburb::all();
         $classifications = Classification::all();
         $subClassifications = SubClassification::all();
-
-        return view('company.jobs.edit', compact('jobOffer', 'suburbs', 'classifications', 'subClassifications'));
+        $jobTypes = JobType::cases();
+        //dd($jobTypes);
+        return view('company.jobs.edit', compact('jobOffer', 'suburbs', 'classifications', 'subClassifications', 'jobTypes'));
     }
 
     /**
@@ -48,21 +53,21 @@ class PostedJobOffersController extends Controller
      */
     public function update(Request $request, $id)
     {
-
+        //dd($request->all());
         // DB更新処理
         try{
             DB::transaction(function () use($request, $id){
-                JobOffer::where('id', '=', findorFail($id))
+                JobOffer::where('id', '=', $id)
                     ->update([
                         'title' => $request->title,
-                        'sub_classification_id' => $request->sub_classfication_id,
+                        'suburb_id' => $request->suburb,
+                        'sub_classification_id' => $request->sub_classification,
                         'annual_salary' => $request->annual_salary,
                         'hourly_pay' => $request->hourly_pay,
                         'job_type' => $request->job_type,
                         'description' => $request->description,
                         'is_display' => $request->is_display,
                         'sort_no' => $request->sort_no,
-
                     ]);
             });
         }catch(Throwable $e){
@@ -71,8 +76,8 @@ class PostedJobOffersController extends Controller
         }
 
         return redirect()
-        ->route('company.job.edit');
-        //->with(['message' => 'Successfully updated', 'status']); 更新成功のフラッシュメッセージ
+        ->route('company.job.edit',['id' => $id])
+        ->with('update_message', 'Update is successed!'); 
     }
 
     /**
@@ -87,6 +92,8 @@ class PostedJobOffersController extends Controller
 
         $targetJobOffer->delete();
 
-        return redirect()->route('company.dashboard');
+        return redirect()
+        ->route('company.dashboard')
+        ->with('delete_message', 'Post is deleted.');
     }
 }

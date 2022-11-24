@@ -10,16 +10,11 @@
           <div class="flex flex-col text-center w-full mb-6">
             <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Edit job offer</h1>
           </div>
-          @if(session('success_message'))
+          @if(session('update_message'))
             <div class="alert alert-success mx-auto w-1/2 text-2xl text-center mb-4 bg-green-400 rounded-lg">
-              {{ session('success_message')}}
+              {{ session('update_message')}}
           </div>
           @endif
-          @if(session('error_message'))
-          <div class="alert alert-danger">
-            {{ session('error_message')}}
-        </div>
-        @endif
           <div class="lg:w-5/6 md:w-2/3 mx-auto">
             <form id="submit" method="POST" action="{{ route('company.job.update', ['id' => $jobOffer->id]) }}">
                 @csrf
@@ -40,8 +35,7 @@
                   <select name="suburb" id="suburb" required class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                     <option value="">Select suburb</option>
                     @foreach ($suburbs as $suburb)
-                        <option value="{{ $jobOffer->suburb_id }}" 
-                          @if($suburb->id === $jobOffer->id) selected @endif>
+                        <option value="{{ $suburb->id }}" @if($suburb->id === $jobOffer->suburb_id) selected @endif>
                             {{ $suburb->name }}
                         </option>
                     @endforeach
@@ -59,8 +53,7 @@
                     @foreach ($classifications as $classification)
                     <optgroup label="{{ $classification->name }}">
                       @foreach ($classification->subClassification as $sub_classification)
-                          <option value="{{ $jobOffer->sub_classification_id }}"
-                            @if ($sub_classification->id === $jobOffer->sub_classification_id) selected @endif>
+                          <option value="{{ $sub_classification->id }}" @if ($sub_classification->id === $jobOffer->sub_classification_id) selected @endif>
                             {{ $sub_classification->name }} 
                           </option>
                       @endforeach
@@ -93,13 +86,13 @@
                   @enderror
                 <div class="relative items-center mb-4">
                   <ul class="w-96 text-xl font-medium text-gray-900 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                    @foreach ($job_types as $job_type)
+                    @foreach ($jobTypes as $jobType)
                       <li class="w-full my-2 dark:border-gray-600">
                         <div class="flex items-center pl-3">
-                          <input name="job_type" id="job_type" type="radio" value="{{ $jobOffer->job_type }}" 
-                          @if($job_type->value === (int)old('job_type')) checked @endif
+                          <input name="job_type" id="job_type" type="radio" value="{{ $jobType->value }}" 
+                          @if($jobType->value === $jobOffer->job_type) checked @endif
                           class="w-6 h-6 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
-                          <label for="job_type" class="leading-7 text-xl text-gray-600">{{ $job_type->label() }}</label>      
+                          <label for="job_type" class="leading-7 text-xl text-gray-600">{{ $jobType->label() }}</label>      
                         </div>
                       </li>
                     @endforeach
