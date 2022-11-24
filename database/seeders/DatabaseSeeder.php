@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
             StateSeeder::class,
             SuburbSeeder::class,
             SubClassificationSeeder::class,
+            JobOfferSeeder::class,
         ]);
     }
 }
