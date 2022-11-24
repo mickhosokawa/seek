@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Company;
+namespace App\Models;
 
 use App\Models\Company\AwardsAndAccreditations;
 use App\Models\Company\Benefits;
