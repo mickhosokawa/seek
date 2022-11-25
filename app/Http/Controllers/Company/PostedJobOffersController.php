@@ -21,7 +21,16 @@ class PostedJobOffersController extends Controller
      */
     public function index()
     {
-        //
+        $postedJobOffers = JobOffer::where('company_id', '=', Auth::id());
+
+        return view('company.jobs.index', compact(('postedJobOffers')));
+    }
+
+    public function show($id)
+    {
+        $jobOfferDetail = JobOffer::findOrFail($id);
+
+        return view('company.jobs.show', compact('jobOfferDetail'));
     }
 
     /**
@@ -34,7 +43,7 @@ class PostedJobOffersController extends Controller
     {
         // 選択したidから求人情報を取得
         $jobOffer = JobOffer::find($id);
-        //dd($jobOffer);
+        
         // 各種マスタの取得
         $suburbs = Suburb::all();
         $classifications = Classification::all();
