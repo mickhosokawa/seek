@@ -125,9 +125,9 @@
                 <form method="POST" action="{{ route('company.active.job.destroy', ['id' => $jobOffer->id]) }}">
                   @csrf
                   <button type="submit" class="flex mx-auto text-white bg-pink-500 border-0 py-2 px-8 focus:outline-none hover:bg-pink-600 rounded text-lg">Delete</button>
-                </form>              </div>
+                </form>
+              </div>
             </div>
-          </form>
           </div>
         </div>
       </section>
