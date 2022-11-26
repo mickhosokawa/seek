@@ -31,6 +31,7 @@ return new class extends Migration
             $table->boolean('is_display');
             $table->integer('sort_no')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
