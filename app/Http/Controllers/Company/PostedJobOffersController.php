@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Company;
 use App\Enums\JobType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Classification;
 use App\Models\Company\JobOffer;
@@ -21,7 +22,24 @@ class PostedJobOffersController extends Controller
      */
     public function index()
     {
-        //
+        $postedJobOffers = '';
+
+        // 求人情報の有無を判定
+        if(JobOffer::where('company_id', '=', Auth::id())->exists()){
+            $postedJobOffers = JobOffer::where('company_id', '=', Auth::id())->get();
+        }else{
+            $postedJobOffers = null;
+        }
+
+        return view('company.jobs.index', compact(('postedJobOffers')));
+    }
+
+    // show()は使わない可能性あり
+    public function show($id)
+    {
+        $jobOfferDetail = JobOffer::findOrFail($id);
+
+        return view('company.jobs.show', compact('jobOfferDetail'));
     }
 
     /**
@@ -34,13 +52,13 @@ class PostedJobOffersController extends Controller
     {
         // 選択したidから求人情報を取得
         $jobOffer = JobOffer::find($id);
-        //dd($jobOffer);
+
         // 各種マスタの取得
         $suburbs = Suburb::all();
         $classifications = Classification::all();
         $subClassifications = SubClassification::all();
         $jobTypes = JobType::cases();
-        //dd($jobTypes);
+        
         return view('company.jobs.edit', compact('jobOffer', 'suburbs', 'classifications', 'subClassifications', 'jobTypes'));
     }
 
@@ -53,7 +71,6 @@ class PostedJobOffersController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //dd($request->all());
         // DB更新処理
         try{
             DB::transaction(function () use($request, $id){
