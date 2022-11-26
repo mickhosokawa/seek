@@ -118,8 +118,6 @@
                 </div>
               </div>
               <div class="p-2 w-full">
-                <form id="submit" method="POST" action="{{ route('company.job.update', ['id' => $jobOffer->id]) }}">
-                  @csrf
                   <button type="submit" class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Update</button>
                 </form>
                 <form method="POST" action="{{ route('company.active.job.destroy', ['id' => $jobOffer->id]) }}">
