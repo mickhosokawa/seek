@@ -4,6 +4,7 @@ namespace App\Models\User;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User\User;
 
 class EducationBackground extends Model
 {
@@ -18,4 +19,11 @@ class EducationBackground extends Model
         'expected_year',
         'description',
     ];
+
+    // ユーザー
+    public function user()
+    {
+        // ユーザーテーブルを持つ
+        return $this->belongsTo(User::class);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Models\User;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\User\User;
 
 class CareerHistory extends Model
 {
@@ -20,5 +21,10 @@ class CareerHistory extends Model
         'description',
     ];
 
-    
+    // ユーザー
+    public function user()
+    {
+        // ユーザーテーブルを持つ
+        return $this->belongsTo(User::class);
+    }
 }
