@@ -51,7 +51,7 @@ class LoginRequest extends FormRequest
         }else if($this->routeIs('admin.*')){
             $guard = 'admin';
         }else{
-            $guard = 'users.*';
+            $guard = 'users';
         }
 
         // ルートに応じてログインメールアドレスとパスワードをチェックする
