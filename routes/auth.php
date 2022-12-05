@@ -62,9 +62,10 @@ Route::middleware('auth:users')->group(function () {
                 ->name('logout');
 
     // プロフィール登録関連
-    Route::get('profile/me', [ProfileController::class, 'create'])->name('profile.create');
-    Route::post('profile/me', [ProfileController::class, 'store'])->name('profile.store');
-    Route::post('profile/me', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('profile/me/create', [ProfileController::class, 'create'])->name('profile.create');
+    Route::post('profile/me/create', [ProfileController::class, 'store'])->name('profile.store');
+    ROute::get('profile/me/create/career', [ProfileController::class, 'createCareer'])->name('profile.career');
+    Route::post('profile/me/{id}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 
     // 求人応募関連
     Route::get('jobs/detail/{id}/apply-a-job', [ApplyJobController::class, 'create'])->name('apply.job.create');
