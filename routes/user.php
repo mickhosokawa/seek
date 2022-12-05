@@ -14,7 +14,7 @@ use App\Http\Controllers\User\ProfileController;
 
 Route::get('/dashboard', function () {
     return view('user.dashboard');
-})->middleware(['auth:companies', 'verified'])->name('dashboard');
+})->middleware(['auth:users', 'verified'])->name('dashboard');
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -40,7 +40,7 @@ Route::middleware('guest')->group(function () {
                 ->name('password.update');
 });
 
-Route::middleware('auth:companies')->group(function () {
+Route::middleware('auth:users')->group(function () {
     Route::get('verify-email', [EmailVerificationPromptController::class, '__invoke'])
                 ->name('verification.notice');
 
@@ -59,10 +59,4 @@ Route::middleware('auth:companies')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
-    
-    // プロフィール関連
-    Route::get('profile/me{id}', [ProfileController::class, 'show'])->name('profile.show');
-    Route::post('profile/me/{id}', [ProfileController::class, 'store'])->name('profile.create');
-    Route::get('profile/me/{id}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::post('profile/me/{id}', [ProfileController::class, 'update'])->name('profile.update');
 });
