@@ -14,7 +14,7 @@
                     </div>
                 </div>
               <div class="mt-5 md:col-span-2 w-2/3 md:mt-0 mx-auto">
-                <form id="next" action="{{ route('user.profile.store') }}" method="POST">
+                <form id="next" action="{{ route('user.profile.store.personal') }}" method="POST">
                     @csrf
                   <div class="overflow-hidden shadow sm:rounded-md">
                     <div class="bg-white px-4 py-5 sm:p-6">
@@ -61,7 +61,7 @@
                        </div> 
 
                         <div class="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                        <button type="hidden" id="next" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Next</button>
+                        <button type="hidden" id="next" class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Save</button>
                         </div>
                     </div>
                 </div>

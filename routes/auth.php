@@ -63,8 +63,9 @@ Route::middleware('auth:users')->group(function () {
 
     // プロフィール登録関連
     Route::get('profile/me/create', [ProfileController::class, 'create'])->name('profile.create');
-    Route::post('profile/me/create', [ProfileController::class, 'store'])->name('profile.store');
-    ROute::get('profile/me/create/career', [ProfileController::class, 'createCareer'])->name('profile.career');
+    Route::post('profile/me/create', [ProfileController::class, 'storePersonalDetail'])->name('profile.store.personal');
+    Route::get('profile/me/create/career', [ProfileController::class, 'createCareer'])->name('profile.career.create');
+    Route::post('profile/me/create/career', [ProfileController::class, 'storeCareer'])->name('profile.career.store');
     Route::post('profile/me/{id}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 
     // 求人応募関連

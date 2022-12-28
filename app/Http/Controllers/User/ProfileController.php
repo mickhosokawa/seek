@@ -4,8 +4,10 @@ namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\User\CareerHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 class ProfileController extends Controller
 {
     /**
@@ -19,7 +21,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * ユーザー基本情報入力画面
      *
      * @return \Illuminate\Http\Response
      */
@@ -28,6 +30,47 @@ class ProfileController extends Controller
         $user = User::where('id', '=', Auth::id())->first();
 
         return view('user.profile.personalDetail', compact('user'));
+    }
+
+    /**
+     * ユーザー基本情報登録
+     */
+    public function storePersonalDetail(Request $request)
+    {
+        $personalDetail = $request->all();
+
+        // 登録処理
+        DB::transaction(function () use($personalDetail){
+            User::where('id', '=', Auth::id())->update([
+                'first_name' => $personalDetail['first_name'],
+                'last_name' => $personalDetail['last_name'],
+                'email' => $personalDetail['email'],
+                'address' => $personalDetail['address'],
+                'phone_number' => $personalDetail['phone_number'],
+                'personal_summary' => $personalDetail['personal_summary'],
+            ]);
+        });
+
+        return redirect()->route('user.profile.create');
+    }
+
+    /**
+     * 職歴入力画面
+     */
+    public function createCareer()
+    {
+        $careers = CareerHistory::where('user_id', '=', Auth::id())->get();
+
+        return view('user.profile.career', compact('careers'));
+    }
+
+    public function storeCareer(Request $request)
+    {
+        $career = $request->all();
+
+        $request->session()->put('career', $career);
+
+        //return redirect()->route('user.profile.education');
     }
 
     /**
