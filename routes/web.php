@@ -1,8 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\jobListController;
 use App\Http\Controllers\User\ProfileController;
+use App\http\Controllers\User\ApplyJobController;
+use App\http\Controllers\User\SavedJobsController;
+use App\http\Controllers\User\SavedSearchesController;
+use App\http\Controllers\User\AppliedJobsController;
+use App\http\Controllers\User\ReviewJobsController;
+use App\Http\Controllers\JobListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +25,7 @@ use App\Http\Controllers\User\ProfileController;
      //return view('seek.index');
  });
 
-Route::get('/dashboard', function () {
+Route::get('profile/me/dashboard', function () {
     return view('user.dashboard');
 })->middleware(['auth:users', 'verified'])->name('dashboard');
 

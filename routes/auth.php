@@ -10,13 +10,6 @@ use App\Http\Controllers\User\Auth\RegisteredUserController;
 use App\Http\Controllers\User\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\User\ProfileController;
-use App\http\Controllers\User\ApplyJobController;
-use App\http\Controllers\User\SavedJobsController;
-use App\http\Controllers\User\SavedSearchesController;
-use App\http\Controllers\User\AppliedJobsController;
-use App\http\Controllers\User\ReviewJobsController;
-
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
                 ->name('register');
