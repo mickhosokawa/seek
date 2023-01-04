@@ -1,14 +1,20 @@
 <?php
 
-use App\Http\Controllers\User\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\User\Auth\ConfirmablePasswordController;
-use App\Http\Controllers\User\Auth\EmailVerificationNotificationController;
-use App\Http\Controllers\User\Auth\EmailVerificationPromptController;
-use App\Http\Controllers\User\Auth\NewPasswordController;
-use App\Http\Controllers\User\Auth\PasswordResetLinkController;
-use App\Http\Controllers\User\Auth\RegisteredUserController;
-use App\Http\Controllers\User\Auth\VerifyEmailController;
+use App\Http\Controllers\Company\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Company\Auth\ConfirmablePasswordController;
+use App\Http\Controllers\Company\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Company\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Company\Auth\NewPasswordController;
+use App\Http\Controllers\Company\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Company\Auth\RegisteredUserController;
+use App\Http\Controllers\Company\Auth\VerifyEmailController;
 use Illuminate\Support\Facades\Route;
+
+use App\Http\Controllers\User\ProfileController;
+
+Route::get('/dashboard', function () {
+    return view('user.dashboard');
+})->middleware(['auth:users', 'verified'])->name('dashboard');
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisteredUserController::class, 'create'])
@@ -53,5 +59,4 @@ Route::middleware('auth:users')->group(function () {
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
-
 });

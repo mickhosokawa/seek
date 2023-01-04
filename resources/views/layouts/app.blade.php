@@ -20,7 +20,7 @@
             @elseif(auth('companies')->user())
                 @include('layouts.company-navigation')
             @elseif(auth('users')->user())
-                @include('layouts.user-company-navigation')
+                @include('layouts.user-navigation')
             @endif
             <!-- Page Heading -->
             @if (isset($header))
