@@ -27,7 +27,6 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call([
             //jobSeeder::class,
-            UserSeeder::class,
             AdminFactorySeeder::class,
             CompanySeeder::class,
             ClassificationSeeder::class,
@@ -35,6 +34,7 @@ class DatabaseSeeder extends Seeder
             SuburbSeeder::class,
             SubClassificationSeeder::class,
             JobOfferSeeder::class,
+            UserTableSeeder::class,
         ]);
     }
 }
