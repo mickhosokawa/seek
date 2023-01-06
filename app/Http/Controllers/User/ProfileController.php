@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DateTimeRequest;
 use App\Models\User;
 use App\Models\User\CareerHistory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 class ProfileController extends Controller
 {
     /**
@@ -60,13 +63,16 @@ class ProfileController extends Controller
     public function createCareer()
     {
         $careers = CareerHistory::where('user_id', '=', Auth::id())->get();
+        $current_year = Carbon::now()->year;
 
-        return view('user.profile.career', compact('careers'));
+        return view('user.profile.career', compact('careers', 'current_year'));
     }
 
-    public function storeCareer(Request $request)
+    public function storeCareer(DateTimeRequest $request)
     {
         $career = $request->all();
+
+        $validated = $request->validated();
 
         $request->session()->put('career', $career);
 
