@@ -68,15 +68,20 @@ class ProfileController extends Controller
         return view('user.profile.career', compact('careers', 'current_year'));
     }
 
+    /**
+     * 
+     * 経歴入力バリデーション、保存
+     * 
+     */
     public function storeCareer(DateTimeRequest $request)
     {
-        $career = $request->all();
 
         $validated = $request->validated();
 
-        $request->session()->put('career', $career);
-
-        //return redirect()->route('user.profile.education');
+        if($validated){
+            dd($validated);
+            return redirect()->route('user.profile.career');
+        }
     }
 
     /**
