@@ -23,11 +23,17 @@
                           <button type="button" class="modal__close" aria-label="Close modal" data-micromodal-close></button>
                         </header>
                         <main class="modal__content" id="modal-1-content">
+                            @error('job_title')
+                                <div class="alert alert-danger" id="test1" data-test="{{ $message }}">{{ $message }}</div>
+                            @enderror
+                            @error('company_name')
+                                <div class="alert alert-danger" id="test2" data-name="{{ $message }}">{{ $message }}</div>
+                            @enderror
                             @error('started_career_date')
-                                <div class="alert alert-danger" id="test" data-test="{{ $message }}">{{ $message }}</div>
+                                <div class="alert alert-danger" id="test3" data-test="{{ $message }}">{{ $message }}</div>
                             @enderror
                             @error('ended_career_date')
-                                <div class="alert alert-danger" data-name="{{ $message }}">{{ $message }}</div>
+                                <div class="alert alert-danger" id="test4" data-name="{{ $message }}">{{ $message }}</div>
                             @enderror
                             <div class="mt-5 md:col-span-2 w-2/3 md:mt-0 mx-auto">
                                 <form action="{{route('user.profile.career.store')}}" method="POST">
@@ -39,11 +45,11 @@
                                         </div>
                                         <div class="col-span-6">
                                             <label for="company_name" class="block text-sm font-medium text-gray-700">Company name</label>
-                                            <input type="text" name="company_name" value="{{ old('company_name') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" required/>
+                                            <input type="text" name="company_name" value="{{ old('company_name') }}" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
                                         </div>
                                         <div class="err-msg col-span-2 sm:col-span-2">
                                             <label for="start_year" class="block text-sm font-medium text-gray-700">Started year</label>
-                                            <select name="started_year" id="started_year" class="col-span-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                            <select name="started_year" id="started_year" data-started_year={{ old('started_year') }} class="col-span-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                             @for ($i=$current_year-50; $i<=$current_year; $i++)
                                                 <option @if($i === (int)old('started_year')) selected @endif>{{$i}}</option>
                                             @endfor
@@ -51,7 +57,7 @@
                                         </div>
                                         <div class="col-span-2 sm:col-span-2 ">
                                             <label for="start_month" class="block text-sm font-medium text-gray-700">Started month</label>
-                                            <select name="started_month" id="started_month" required class="col-span-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                            <select name="started_month" id="started_month" data-started_month={{ old('started_month') }} required class="col-span-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                                 @for ($i=1; $i<=12; $i++)
                                                     <option @if($i === (int)old('started_month')) selected @endif>{{$i}}</option>
                                                 @endfor
@@ -60,7 +66,7 @@
                                         <div class="col-end-6"></div>
                                         <div class="col-span-2 sm:col-span-2">
                                             <label for="ended_year" class="block text-sm font-medium text-gray-700">Ened year</label>
-                                            <select type="date" name="ended_year" id="ended_year" class="col-span-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                            <select name="ended_year" id="ended_year" data-ended_year={{ old('ended_year') }} class="col-span-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                             @for ($i=$current_year-50; $i<=$current_year; $i++)
                                                 <option @if($i === (int)old('ended_year')) selected @endif>{{$i}}</option>
                                             @endfor
@@ -68,7 +74,7 @@
                                         </div>
                                         <div class="col-span-2 sm:col-span-2">
                                             <label for="ended_month" class="block text-sm font-medium text-gray-700">Ended month</label>
-                                            <select type="date" name="ended_month" id="ended_month" class="col-span-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+                                            <select name="ended_month" id="ended_month" data-ended_month={{ old('ended_month') }} class="col-span-3 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
                                                 @for ($i=1; $i<=12; $i++)
                                                     <option @if($i === (int)old('ended_year')) selected @endif>{{$i}}</option>
                                                 @endfor
@@ -84,7 +90,7 @@
                                         </div>
                                         <div class="flex col-span-6 justify-between px-4 py-3 sm:px-6">
                                             <button type="button" class="modal__btn bg-pink-400 rounded-md text-white" data-micromodal-close aria-label="Close this dialog window">Close</button>
-                                            <button type="hidden" id="save" class="inline-flex rounded-md bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Save</button>
+                                            <button type="submit" id="save" class="inline-flex rounded-md bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Save</button>
                                         </div>
                                     </div>
                                 </form>
@@ -108,9 +114,18 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($careers as $career)
                             <tr>
+                                    <td>{{ $career->job_title }}</td>
+                                    <td>{{ $career->company_name }}</td>
+                                    <td>{{ $career->started_year.'/'.$career->started_month }}</td>
+                                    <td>{{ $career->ended_year.'/'.$career->ended_month }}</td>
+                                    <td><a href="#" onclick="openCareerEditModal()" >Edit</a></td>
+                                    {{--<td><a href="#"{{ /*route('user.profile.career.edit', ['id'=>$career->id])*/ }}>Delete</a></td> --}}
+                                
                                 <td></td>
                             </tr>
+                            @endforeach
                         </tbody>
                     </table>
                   </div>
@@ -118,31 +133,3 @@
         </div>
     </section>
 </x-app-layout>
-
-<script>
-
-    // Still in roleにチェックがある場合はEndedを非活性にする
-    function disableEnded(){
-        const stillInRole = document.getElementById('still_in_role');
-        let endYear = document.getElementById('ended_year');
-        let endMonth = document.getElementById('ended_month');
-
-        if(stillInRole.checked){
-            endYear.disabled = true;
-            endMonth.disabled = true;
-        }else{
-            endYear.disabled = false;
-            endMonth.disabled = false;
-        }
-    }
-
-    // バリデーションエラーの場合、モーダルを再表示する
-    window.onload = function(){
-        const error_msg = document.getElementById('test');
-        
-        if(error_msg != undefined){
-            document.querySelector('#modal-1').classList.add('is-open');
-            let aria_hidden = modal.getAttribute('aria-hidden') === 'false';
-        }
-    }
-</script>
