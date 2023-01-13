@@ -25,6 +25,8 @@ class DateTimeRequest extends FormRequest
     public function rules()
     {
         return [
+            'job_title' => 'required',
+            'company_name' => 'required',
             'started_year' => 'required|date',
             'started_month' => 'required',
             'ended_year' => 'required|date',

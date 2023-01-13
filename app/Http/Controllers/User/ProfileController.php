@@ -10,6 +10,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+use Throwable;
 
 class ProfileController extends Controller
 {
@@ -73,15 +75,47 @@ class ProfileController extends Controller
      * 経歴入力バリデーション、保存
      * 
      */
-    public function storeCareer(DateTimeRequest $request)
+    public function storeCareer(Request $request)
     {
+        $started_date = date('Y/m', $request->started_year.$request->started_month);
+        $ended_date = date('Y/m', $request->ended_year.$request->ended_month);
 
-        $validated = $request->validated();
+        //dd($started_date, $ended_date,date('Y/m', $started_date));
 
-        if($validated){
-            dd($validated);
-            return redirect()->route('user.profile.career');
+        // if($started_date < $ended_date){
+        //     dd('test');
+        // }else{
+        //     dd('成功');
+        // }
+
+        // バリデーション
+        $validated = $request->validate([
+            'job_title' => 'required',
+            'company_name' => 'required',
+            'started_year' => 'required',
+            'started_month' => 'required',
+            'ended_year' => 'required',
+            'ended_month' => 'required',
+        ]);
+
+        try{
+            DB::transaction(function() use($request){
+                CareerHistory::create([
+                    'user_id' => Auth::id(),
+                    'job_title' => $request->job_title,
+                    'company_name' => $request->company_name,
+                    'started_year' => $request->started_year,
+                    'started_month' => $request->started_month,
+                    'ended_year' => $request->ended_year,
+                    'ended_month' => $request->ended_month,
+                    'description' => $request->description,
+                ]);
+            });
+        }catch(Throwable $e){
+            Log::error($e);
+            throw $e;
         }
+        return redirect()->route('user.profile.career.create');
     }
 
     /**
@@ -114,7 +148,9 @@ class ProfileController extends Controller
      */
     public function edit($id)
     {
-        //
+        $career = CareerHistory::findOrFail($id);
+
+        return view('user.profile.career.edit', compact('career'));
     }
 
     /**
