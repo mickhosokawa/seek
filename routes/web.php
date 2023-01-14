@@ -45,7 +45,8 @@ Route::get('profile/me/create', [ProfileController::class, 'create'])->name('pro
 Route::post('profile/me/create', [ProfileController::class, 'storePersonalDetail'])->name('profile.store.personal');
 Route::get('profile/me/create/career', [ProfileController::class, 'createCareer'])->name('profile.career.create');
 Route::post('profile/me/create/career', [ProfileController::class, 'storeCareer'])->name('profile.career.store');
-Route::post('profile/me/{id}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::get('profile/me/{id}/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+Route::post('profile/me/{id}/edit', [ProfileController::class, 'update'])->name('profile.career.update');
 
 // 求人応募関連
 Route::get('jobs/detail/{id}/apply-a-job', [ApplyJobController::class, 'create'])->name('apply.job.create');
