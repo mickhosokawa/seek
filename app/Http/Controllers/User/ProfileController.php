@@ -186,6 +186,12 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        //
+        dd('test');
+        $career = CareerHistory::findOrFail($id);
+        dd($career);
+
+        $career->delete();
+
+        return redirect()->route('user.profile.career.create');
     }
 }

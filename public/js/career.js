@@ -28,6 +28,16 @@ window.onload = function(){
     }
 }
 
+// 削除前に確認のメッセージを表示する
+function deleteCareer(e){
+    if(window.confirm('Do you really want to delete the career?')){
+        console.log(document.getElementById('delete_'+e.dataset.id));
+        document.getElementById('delete_'+e.dataset.id).submit();
+    }
+
+    
+}
+
 function openCareerEditModal(){
     const careerEdit = document.getElementById('career_edit');
     console.log('モーダルが開きます');

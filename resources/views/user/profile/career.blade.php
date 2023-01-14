@@ -121,8 +121,13 @@
                                     <td>{{ $career->started_year.'/'.$career->started_month }}</td>
                                     <td>{{ $career->ended_year.'/'.$career->ended_month }}</td>
                                     <td><a href="{{ route('user.profile.edit', ['id'=>$career->id]) }}" onclick="openCareerEditModal()" >Edit</a></td>
-                                    {{--<td><a href="#"{{ /*route('user.profile.career.edit', ['id'=>$career->id])*/ }}>Delete</a></td> --}}
-                                
+                                    <td>
+                                        <form action="POST" action="{{ route('user.profile.career.destroy', ['id'=>$career->id]) }}">
+                                            {{-- {{dd(route('user.profile.career.destroy', ['id'=>$career->id]))}} --}}
+                                            @csrf
+                                            {{-- @method('delete') --}}
+                                            <button type="submit" data-id="{{ $career->id }}">Delete</button></td>
+                                        </form>
                                 <td></td>
                             </tr>
                             @endforeach
