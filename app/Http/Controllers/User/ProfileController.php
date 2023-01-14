@@ -149,8 +149,9 @@ class ProfileController extends Controller
     public function edit($id)
     {
         $career = CareerHistory::findOrFail($id);
+        $current_year = Carbon::now()->year;
 
-        return view('user.profile.career.edit', compact('career'));
+        return view('user.profile.edit', compact('career', 'current_year'));
     }
 
     /**
@@ -162,7 +163,19 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $update = CareerHistory::findOrFail($id);
+
+        $update->job_title = $request->job_title;
+        $update->company_name = $request->company_name;
+        $update->started_year = $request->started_year;
+        $update->started_month = $request->started_month;
+        $update->ended_year = $request->ended_year;
+        $update->ended_month = $request->ended_month;
+        $update->description = $request->description;
+
+        $update->save();
+
+        return redirect()->route('user.profile.career.create');
     }
 
     /**
