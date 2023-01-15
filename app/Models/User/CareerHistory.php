@@ -12,6 +12,7 @@ class CareerHistory extends Model
 
     protected $fillable = [
         'role',
+        'user_id',
         'job_title',
         'company_name',
         'started_year',

@@ -7,7 +7,9 @@ use App\http\Controllers\User\SavedJobsController;
 use App\http\Controllers\User\SavedSearchesController;
 use App\http\Controllers\User\AppliedJobsController;
 use App\http\Controllers\User\ReviewJobsController;
+
 use App\Http\Controllers\JobListController;
+
 
 /*
 |--------------------------------------------------------------------------
