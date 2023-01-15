@@ -186,9 +186,9 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        dd('test');
+        //dd('test');
         $career = CareerHistory::findOrFail($id);
-        dd($career);
+        //dd($career);
 
         $career->delete();
 
