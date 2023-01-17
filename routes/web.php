@@ -1,13 +1,15 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\jobListController;
 use App\Http\Controllers\User\ProfileController;
 use App\http\Controllers\User\ApplyJobController;
 use App\http\Controllers\User\SavedJobsController;
 use App\http\Controllers\User\SavedSearchesController;
 use App\http\Controllers\User\AppliedJobsController;
 use App\http\Controllers\User\ReviewJobsController;
+
+use App\Http\Controllers\JobListController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +27,7 @@ use App\http\Controllers\User\ReviewJobsController;
      //return view('seek.index');
  });
 
-Route::get('/dashboard', function () {
+Route::get('profile/me/dashboard', function () {
     return view('user.dashboard');
 })->middleware(['auth:users', 'verified'])->name('dashboard');
 
@@ -74,4 +76,5 @@ Route::post('my-activity/applied/{id}/destroy', [AppliedJobsController::class, '
 Route::get('leave-a-review', [ReviewJobsController::class, 'create'])->name('leave.review.create');
 Route::post('leave-a-review', [ReviewJobsController::class, 'store'])->name('leave.review.store');
 });
+
 require __DIR__.'/auth.php';

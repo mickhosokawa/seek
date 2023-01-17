@@ -16,8 +16,14 @@
               <div class="mt-5 md:col-span-2 w-2/3 md:mt-0 mx-auto">
                 <form id="next" action="{{ route('user.profile.store.personal') }}" method="POST">
                     @csrf
+                    {{-- フラッシュメッセージ --}}
+                    @if (session('flash_message'))
+                        <div class="flash_message alert alert-success bg-green-300 text-center mb-5">
+                            {{ session('flash_message') }}
+                        </div> 
+                    @endif
                   <div class="overflow-hidden shadow sm:rounded-md">
-                    <div class="bg-white px-4 py-5 sm:p-6">
+                    {{-- <div class="bg-white px-4 py-5 sm:p-6"> --}}
                         {{-- バリデーションエラーを表示する --}}
                         @if($errors->any())
                         <div class="alert alert-danger mb-10">
@@ -27,7 +33,8 @@
                                 @endforeach
                             </ul>
                         </div>
-                    @endif
+                        @endif
+                    {{-- </div> --}}
                       <div class="grid grid-cols-6 gap-6">
                         <div class="col-span-6 sm:col-span-3">
                           <label for="name" class="block text-sm font-medium text-gray-700">First name</label>
