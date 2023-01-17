@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Ramsey\Uuid\Type\Integer;
 use Throwable;
 
 class ProfileController extends Controller
@@ -77,8 +78,8 @@ class ProfileController extends Controller
      */
     public function storeCareer(Request $request)
     {
-        $started_date = date('Y/m', $request->started_year.$request->started_month);
-        $ended_date = date('Y/m', $request->ended_year.$request->ended_month);
+        //$started_date = date('Y/m', $request->started_year.$request->started_month);
+        //$ended_date = date('Y/m', $request->ended_year.$request->ended_month);
 
         //dd($started_date, $ended_date,date('Y/m', $started_date));
 
@@ -94,20 +95,27 @@ class ProfileController extends Controller
             'company_name' => 'required',
             'started_year' => 'required',
             'started_month' => 'required',
-            'ended_year' => 'required',
-            'ended_month' => 'required',
+            // 'ended_year' => 'required',
+            // 'ended_month' => 'required',
         ]);
 
+        if($request->role === '1'){
+            $role = true;
+        }else{
+            $role = false;
+        }
+        //dd(gettype((int)$request->started_year), $request->started_year);
         try{
-            DB::transaction(function() use($request){
+            DB::transaction(function() use($request, $role){
                 CareerHistory::create([
                     'user_id' => Auth::id(),
+                    'role' => $role,
                     'job_title' => $request->job_title,
                     'company_name' => $request->company_name,
-                    'started_year' => $request->started_year,
-                    'started_month' => $request->started_month,
-                    'ended_year' => $request->ended_year,
-                    'ended_month' => $request->ended_month,
+                    'started_year' => (int)$request->started_year,
+                    'started_month' => (int)$request->started_month,
+                    'ended_year' => (int)$request->ended_year,
+                    'ended_month' => (int)$request->ended_month,
                     'description' => $request->description,
                 ]);
             });
@@ -165,6 +173,13 @@ class ProfileController extends Controller
     {
         $update = CareerHistory::findOrFail($id);
 
+        if($request->role === '1'){
+            $role = true;
+        }else{
+            $role = false;
+        }
+
+        $update->role = $role;
         $update->job_title = $request->job_title;
         $update->company_name = $request->company_name;
         $update->started_year = $request->started_year;
@@ -186,9 +201,7 @@ class ProfileController extends Controller
      */
     public function destroy($id)
     {
-        //dd('test');
         $career = CareerHistory::findOrFail($id);
-        //dd($career);
 
         $career->delete();
 

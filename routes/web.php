@@ -41,7 +41,7 @@ Route::get('jobs/{id}', [JobListController::class, 'show'])->name('seek.show');
 
 Route::middleware('auth:users')->group(function () {
 // プロフィール登録関連
-Route::post('destroy/{id}', [ProfileController::class, 'destroy'])->name('profile.career.destroy');
+Route::post('profile/me/create/career/destroy/{id}', [ProfileController::class, 'destroy'])->name('profile.career.destroy');
 Route::get('profile/me/create', [ProfileController::class, 'create'])->name('profile.create');
 Route::post('profile/me/create', [ProfileController::class, 'storePersonalDetail'])->name('profile.store.personal');
 Route::get('profile/me/create/career', [ProfileController::class, 'createCareer'])->name('profile.career.create');

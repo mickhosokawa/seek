@@ -2,7 +2,7 @@
 
  // Still in roleにチェックがある場合はEndedを非活性にする
  function disableEnded(){
-    const stillInRole = document.getElementById('role');
+    const stillInRole = document.getElementById('still_in_role');
     let endYear = document.getElementById('ended_year');
     let endMonth = document.getElementById('ended_month');
 
@@ -34,8 +34,6 @@ function deleteCareer(e){
         console.log(document.getElementById('delete_'+e.dataset.id));
         document.getElementById('delete_'+e.dataset.id).submit();
     }
-
-    
 }
 
 function openCareerEditModal(){
@@ -83,20 +81,20 @@ function openCareerEditModal(){
 //     });
 // });
 
-function checkIfRightDate($started_year, $started_month, $ended_year, $ended_month){
+// function checkIfRightDate($started_year, $started_month, $ended_year, $ended_month){
     
-    let date = new Date();
+//     let date = new Date();
 
-    // 入力値を取得、日付に変換
-    $started_date = new Date($started_year, $started_month);
-    $ended_date = new Date($ended_year, $ended_month);
+//     // 入力値を取得、日付に変換
+//     $started_date = new Date($started_year, $started_month);
+//     $ended_date = new Date($ended_year, $ended_month);
 
-    // 日付を比較
-    if($started_date > $ended_date){ // 終了日が開始日以前の場合
-        // モーダルを再表示
-        //document.querySelector('#modal-1').classList.add('is-open');
+//     // 日付を比較
+//     if($started_date > $ended_date){ // 終了日が開始日以前の場合
+//         // モーダルを再表示
+//         //document.querySelector('#modal-1').classList.add('is-open');
 
-    }
+//     }
 
 
 }

@@ -18,12 +18,12 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained(); // usersテーブルID
             $table->boolean('role')->nullable();
             $table->string('job_title')->nullable();
-            $table->foreignId('company_id')->nullable()->constrained();
+            //$table->foreignId('company_id')->nullable()->constrained();
             $table->string('company_name')->nullable();
-            $table->date('started_year')->nullable();
-            $table->date('started_month')->nullable();
-            $table->date('ended_year')->nullable();
-            $table->date('ended_month')->nullable();
+            $table->integer('started_year')->nullable();
+            $table->integer('started_month')->nullable();
+            $table->integer('ended_year')->nullable();
+            $table->integer('ended_month')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

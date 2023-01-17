@@ -12,7 +12,7 @@
             <p class="lg:w-2/3 mx-auto leading-relaxed text-base">Whatever cardigan tote bag tumblr hexagon brooklyn asymmetrical gentrify.</p>
           </div>
           <div class="mt-5 md:col-span-2 w-2/3 md:mt-0 mx-auto">
-            <form action="{{route('user.profile.career.update', ['id' =>$career->id])}}" method="POST">
+            <form method="POST" action="{{route('user.profile.career.update', ['id' =>$career->id])}}">
                 @csrf
                 <div class="grid grid-cols-6 gap-6" id="job_role">
                     <div class="col-span-6">
