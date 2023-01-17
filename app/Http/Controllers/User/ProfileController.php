@@ -57,7 +57,7 @@ class ProfileController extends Controller
             ]);
         });
 
-        return redirect()->route('user.profile.create');
+        return redirect()->route('user.profile.create')->with('flash_message', 'Success your profile!');
     }
 
     /**
