@@ -20,10 +20,10 @@ return new class extends Migration
             $table->string('job_title')->nullable();
             $table->string('company_id')->nullable();
             $table->string('company_name')->nullable();
-            $table->date('started_year')->nullable();
-            $table->date('started_month')->nullable();
-            $table->date('ended_year')->nullable();
-            $table->date('ended_month')->nullable();
+            $table->integer('started_year')->nullable();
+            $table->integer('started_month')->nullable();
+            $table->integer('ended_year')->nullable();
+            $table->integer('ended_month')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();
         });

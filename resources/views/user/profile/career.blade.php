@@ -81,8 +81,8 @@
                                             </select>    
                                         </div>
                                         <div class="col-end-6 text-sm">
-                                            <input type="checkbox" id="still_in_role" onclick="disableEnded()">
-                                            <label for="still_in_role">Still in role</label>
+                                            <input type="checkbox" id="role" name="role" onclick="disableEnded()" value="1" {{ old('role') == '1' ? 'checked' : '0' }}>
+                                            <label for="role">Still in role</label>
                                         </div>
                                         <div class="col-span-6">
                                             <label for="description" class="block text-sm font-medium text-gray-700">Description</label>
@@ -119,10 +119,15 @@
                                     <td>{{ $career->job_title }}</td>
                                     <td>{{ $career->company_name }}</td>
                                     <td>{{ $career->started_year.'/'.$career->started_month }}</td>
-                                    <td>{{ $career->ended_year.'/'.$career->ended_month }}</td>
-                                    <td><a href="#" onclick="openCareerEditModal()" >Edit</a></td>
-                                    {{--<td><a href="#"{{ /*route('user.profile.career.edit', ['id'=>$career->id])*/ }}>Delete</a></td> --}}
-                                
+                                    <td>@if(is_null($career->role)){{ $career->ended_year.'/'.$career->ended_month }} @endif</td>
+                                    <td><a href="{{ route('user.profile.edit', ['id'=>$career->id]) }}" onclick="openCareerEditModal()" >Edit</a></td>
+                                    <td>
+                                        <form method="POST" action="{{ route('user.profile.career.destroy', ['id'=>$career->id]) }}">
+                                            {{-- {{dd(route('user.profile.career.destroy', ['id'=>$career->id]))}} --}}
+                                            @csrf
+                                            {{-- @method('delete') --}}
+                                            <button type="submit" data-id="{{ $career->id }}">Delete</button></td>
+                                        </form>
                                 <td></td>
                             </tr>
                             @endforeach
