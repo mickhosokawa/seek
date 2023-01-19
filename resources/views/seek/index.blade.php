@@ -12,13 +12,16 @@
 
       {{-- 職種選択 --}}
       <div class="mt-7">
-        <select name="categories" class="border rounded-md ml-5 mt-1" >
+        <select name="classifications" class="border rounded-md ml-5 mt-1" >
           <option value="">all</option>
-            @foreach ($categories as $id => $name)
-                <option value="{{$id}}">
-                  {{$name}}
+          @foreach ($classifications as $classification)
+          <optgroup label="{{ $classification->name }}">
+            @foreach ($classification->subClassification as $sub_classification)
+                <option value="{{ $sub_classification->id }}">
+                  {{ $sub_classification->name }} 
                 </option>
             @endforeach
+          @endforeach
           </select>
       </div>
 
@@ -30,4 +33,6 @@
       <input type="submit" class="ml-2 px-6 py-1 mt-9 rounded bg-pink-600 text-white font-bold link-hover cursor-pointer" value="SEEK" selected>
     </div>
 </div>
+
+
 </x-navigation-and-search>

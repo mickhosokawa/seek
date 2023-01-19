@@ -10,14 +10,17 @@
             "@if (isset($search)) {{ $search }} @endif">
       </div>
       <div class="mt-7">
-        <select name="category_ids" class="border rounded-md ml-5 mt-1" value="{{$category_ids}}">
+        <select name="classifications" class="border rounded-md ml-5 mt-1" >
           <option value="">all</option>
-            @foreach ($categories as $id => $name)
-                <option value="{{$id}}">
-                  {{$name}}
+          @foreach ($classifications as $classification)
+          <optgroup label="{{ $classification->name }}">
+            @foreach ($classification->subClassification as $sub_classification)
+                <option value="{{ $sub_classification->id }}">
+                  {{ $sub_classification->name }} 
                 </option>
             @endforeach
-        </select>
+          @endforeach
+          </select>
       </div>
       <div>
           <p class="flex text-white text-bold text-lg ml-5">Where</p>

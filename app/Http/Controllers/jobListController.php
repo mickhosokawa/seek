@@ -6,30 +6,31 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Job;
 use App\Models\PrimaryCategory;
+use App\Models\Classification;
+use App\Models\Company\JobOffer;
 
 class JobListController extends Controller
 {
 
     public function index()
     {
-        $category     = new PrimaryCategory;
-        $categories = PrimaryCategory::pluck('name', 'id');
+        $classifications = Classification::all();
 
-        return view('seek.index', compact('categories'));
+        return view('seek.index', compact('classifications'));
+
     }
 
     public function search(Request $request)
     {
-        $category     = new primaryCategory;
-        $categories = PrimaryCategory::pluck('name', 'id');
-        $category_ids = $request->input('category_ids');
+        $classifications = Classification::all();
+        //dd($classifications);
         $sort         = $request->get('sort');
         $jobs         = DB::table('jobs');
         
         // 入力された内容を取得
         $search = $request->get('search');
         $query = $jobs
-                ->leftJoin('primary_categories', 'jobs.job_id', '=', 'primary_categories.id');
+                ->leftJoin('classifications', 'jobs.job_id', '=', 'classifications.id');
 
         // keywordが入力されていれば、AND検索を実行
         if($search){
@@ -53,18 +54,19 @@ class JobListController extends Controller
         }
 
         // カテゴリ検索
-        if(isset($category_ids)){
-            $query->where('primary_categories.id', $category_ids);
+        if(isset($classifications)){
+            $query->where('classifications.id','=',$request->input('id'));
         }
+        //dd($query);
         
         $jobs = $query->get();
     
-        return view('seek.jobs', compact('jobs', 'search', 'category_ids', 'categories'));
+        return view('seek.jobs', compact('jobs', 'search', 'classifications'));
     }
 
     public function show($id)
     {
-        $detail = Job::findOrFail($id);
+        $detail = JobOffer::findOrFail($id);
 
         return view('seek.jobDetail', compact('detail'));
     }
