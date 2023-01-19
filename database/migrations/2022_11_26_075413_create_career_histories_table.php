@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('career_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained(); // usersテーブルID
-            $table->boolean('role')->nullable();
+            $table->string('role')->nullable();
             $table->string('job_title')->nullable();
             $table->string('company_id')->nullable();
             $table->string('company_name')->nullable();
