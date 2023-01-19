@@ -173,13 +173,8 @@ class ProfileController extends Controller
     {
         $update = CareerHistory::findOrFail($id);
 
-        if($request->role === '1'){
-            $role = true;
-        }else{
-            $role = false;
-        }
-
-        $update->role = $role;
+        //dd($update, $update->role, $request->role, $request->all(), $role);
+        $update->role = $request->role;
         $update->job_title = $request->job_title;
         $update->company_name = $request->company_name;
         $update->started_year = $request->started_year;
