@@ -57,7 +57,7 @@
                         </select>    
                     </div>
                     <div class="col-end-6 text-sm">
-                        <input type="checkbox" id="still_in_role" onclick="disableEnded()" value="{{ $career->role }}">
+                        <input type="checkbox" id="still_in_role" name="role" onclick="disableEnded()" @if ($career->role === 'on') checked @endif>
                         <label for="still_in_role">Still in role</label>
                     </div>
                     <div class="col-span-6">
