@@ -13,11 +13,14 @@
       {{-- 職種選択 --}}
       <div class="mt-7">
         <select name="classifications" class="border rounded-md ml-5 mt-1" >
-          <option value="">all</option>
+          {{-- <option value="@if(isset($sub_classification->id)){{ $sub_classification->id }}">
+            @if ((isset($sub_classification->id))){{  }}
+            
+          @endif</option> --}}
           @foreach ($classifications as $classification)
           <optgroup label="{{ $classification->name }}">
             @foreach ($classification->subClassification as $sub_classification)
-                <option value="{{ $sub_classification->id }}">
+                <option value="{{ $sub_classification->id }}" @if(old('classifications') == $sub_classification->id) selected @endif>
                   {{ $sub_classification->name }} 
                 </option>
             @endforeach

@@ -57,7 +57,7 @@ class JobListController extends Controller
         if(isset($classifications)){
             $query->where('classifications.id','=',$request->input('id'));
         }
-        //dd($query);
+        //dd($request->input('classifications'));
         
         $jobs = $query->get();
     

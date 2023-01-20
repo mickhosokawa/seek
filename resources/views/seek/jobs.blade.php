@@ -10,7 +10,20 @@
             "@if (isset($search)) {{ $search }} @endif">
       </div>
       <div class="mt-7">
-        <select name="classifications" class="border rounded-md ml-5 mt-1" >
+        <div class="mt-7">
+          <select name="classifications" class="border rounded-md ml-5 mt-1" >
+            <option value="0" @if(\Request::input('classifications') === "0") selected @endif>All</option>
+            @foreach ($classifications as $classification)
+            <optgroup label="{{ $classification->name }}">
+              @foreach ($classification->subClassification as $sub_classification)
+                  <option value="{{ $sub_classification->id }}" @if(\Request::input('classifications') == $sub_classification->id) selected @endif>{{ $sub_classification->name }}</option>
+              @endforeach
+            </optgroup>
+            @endforeach
+          </select>
+        </div>
+        @dump(\Request::input('classifications'))
+        {{-- <select name="classifications" class="border rounded-md ml-5 mt-1" >
           <option value="">all</option>
           @foreach ($classifications as $classification)
           <optgroup label="{{ $classification->name }}">
@@ -20,7 +33,7 @@
                 </option>
             @endforeach
           @endforeach
-          </select>
+          </select> --}}
       </div>
       <div>
           <p class="flex text-white text-bold text-lg ml-5">Where</p>
