@@ -22,7 +22,7 @@
             @endforeach
           </select>
         </div>
-        @dump(\Request::input('classifications'))
+        {{-- @dump(\Request::input('classifications')) --}}
         {{-- <select name="classifications" class="border rounded-md ml-5 mt-1" >
           <option value="">all</option>
           @foreach ($classifications as $classification)
