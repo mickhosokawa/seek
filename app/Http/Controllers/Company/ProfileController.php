@@ -8,9 +8,9 @@ use App\Http\Requests\Company\ProfileFirstRequest;
 use App\Http\Requests\Company\SecondPostRequest;
 use Illuminate\Validation\Validator;
 use App\Models\Company;
-use App\Models\Company\AwardsAndAccreditations;
-use App\Models\Company\Benefits;
-use App\Models\Company\CultureAndValues;
+use App\Models\AwardsAndAccreditations;
+use App\Models\Benefits;
+use App\Models\CultureAndValues;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 

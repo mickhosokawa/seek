@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Models\Company;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Company;
 
-
-class AwardsAndAccreditations extends Model
+class Images extends Model
 {
     use HasFactory;
 
@@ -20,6 +18,7 @@ class AwardsAndAccreditations extends Model
         'title',
         'company_id',
         'image',
+        'is_pr_image',
     ];
 
     // 企業テーブルが親

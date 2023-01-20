@@ -1,17 +1,24 @@
 <?php
 
-namespace App\Models\User;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User\User;
 
-class Skill extends Model
+class CareerHistory extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'title',
+        'role',
+        'user_id',
+        'job_title',
+        'company_name',
+        'started_year',
+        'started_month',
+        'ended_year',
+        'ended_month',
+        'description',
     ];
 
     // ユーザー

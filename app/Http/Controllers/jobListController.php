@@ -4,10 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Models\Job;
+use App\Models\JobOffer;
 use App\Models\PrimaryCategory;
 use App\Models\Classification;
-use App\Models\Company\JobOffer;
 
 class JobListController extends Controller
 {
@@ -23,7 +22,6 @@ class JobListController extends Controller
     public function search(Request $request)
     {
         $classifications = Classification::all();
-        //dd($classifications);
         $sort         = $request->get('sort');
         $jobs         = DB::table('jobs');
         

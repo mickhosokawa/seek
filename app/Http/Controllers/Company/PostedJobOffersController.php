@@ -8,10 +8,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Classification;
-use App\Models\Company\JobOffer;
+use App\Models\JobOffer;
 use App\Models\SubClassification;
 use App\Models\Suburb;
-use Exception;
+use Throwable;
+use Illuminate\Support\Facades\Log;
 
 class PostedJobOffersController extends Controller
 {

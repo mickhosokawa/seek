@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Models\User\CareerHistory;
-use App\Models\User\EducationBackground;
-use App\Models\User\Language;
-use App\Models\User\Skill;
+use App\Models\CareerHistory;
+use App\Models\EducationBackground;
+use App\Models\Language;
+use App\Models\Skill;
 
 class User extends Authenticatable
 {

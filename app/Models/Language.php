@@ -1,23 +1,17 @@
 <?php
 
-namespace App\Models\User;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User\User;
 
-class EducationBackground extends Model
+class Language extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'institution',
-        'major',
-        'degree',
-        'is_finished',
-        'finished_year',
-        'expected_year',
-        'description',
+        'language',
+        'level',
     ];
 
     // ユーザー
