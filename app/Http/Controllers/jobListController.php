@@ -7,15 +7,16 @@ use Illuminate\Support\Facades\DB;
 use App\Models\JobOffer;
 use App\Models\PrimaryCategory;
 use App\Models\Classification;
+use App\Models\SubClassification;
 
 class JobListController extends Controller
 {
-
     public function index()
     {
         $classifications = Classification::all();
+        $jobOffers = JobOffer::with('SubClassification')->get()->toArray();
 
-        return view('seek.index', compact('classifications'));
+        return view('seek.index', compact('classifications','jobOffers', 'locations'));
 
     }
 
