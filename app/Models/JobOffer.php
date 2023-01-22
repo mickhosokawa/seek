@@ -50,4 +50,12 @@ class JobOffer extends Model
     public function company(){
         return $this->belongsTo(Company::class);
     }
+
+    public function subClassification(){
+        return $this->belongsTo(SubClassification::class);
+    }
+
+    public function suburb(){
+        return $this->belongsTo(Suburb::class);
+    }
 }

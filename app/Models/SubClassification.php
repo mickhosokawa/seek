@@ -13,4 +13,8 @@ class SubClassification extends Model
     {
         return $this->belongsTo(Classification::class);
     }
+
+    public function jobOffer(){
+        return $this->hasMany(JobOffer::class);
+    }
 }
