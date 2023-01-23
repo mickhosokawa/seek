@@ -27,7 +27,12 @@
       {{-- 場所指定 --}}
       <div>
           <p class="flex text-white text-bold text-lg ml-5">Where</p>
-          <input class="border rounded-md ml-5 mt-1" type="text" name="location">
+          <select name="suburb" class="border rounded-md ml-5 mt-1" >
+            <option value="0" @if(\Request::input('suburb') === "0") selected @endif>All</option>
+            @foreach ($suburbs as $suburb)
+                  <option value="{{ $suburb->id }}" @if(\Request::input('suburb') == $suburb->id) selected @endif>{{ $suburb->name }}</option>
+            @endforeach
+          </select>
       </div>
       <input type="submit" class="ml-2 px-6 py-1 mt-9 rounded bg-pink-600 text-white font-bold link-hover cursor-pointer" value="SEEK" selected>
     </div>
@@ -36,6 +41,18 @@
 
     {{-- 投稿一覧 --}}
     <div class="bg-gray-100 mt-3 justify-center">
+      <div class="mt-5 ml-20">
+        <select name="sort" id="sort">
+          <option value="relevance" 
+            @if (\Request::get('sort') === 'relevance')
+                selected
+                @endif>Relevance</option>
+          <option value="date" 
+            @if (\Request::get('sort') === 'date')
+                selected
+                @endif>Date</option>
+        </select>
+      </div>
       <div class="bg-white max-w-screen-md m-auto rounded-md mt-1 mb-1 p-3 w-11/12">
         @if (isset($jobOffers))
           @foreach ($jobOffers as $job)
@@ -55,7 +72,14 @@
         @endif  
       </div>
     </div>
-</div>
 
+    
+</div>
+<script>
+  const select = document.getElementById('sort')
+  select.addEventListener('change', function(){
+    this.form.submit()
+  })
+</script>
 
 </x-navigation-and-search>
