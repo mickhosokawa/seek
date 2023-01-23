@@ -3,76 +3,62 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Models\JobOffer;
-use App\Models\PrimaryCategory;
 use App\Models\Classification;
-use App\Models\SubClassification;
+use App\Models\Suburb;
 
 class JobListController extends Controller
 {
     public function index(Request $request)
     {
+        // マスタデータの取得
         $classifications = Classification::all();
-        //$sort         = $request->get('sort');
-        //$jobs         = DB::table('jobs');
-        $jobOffers = JobOffer::with(['SubClassification', 'suburb.state'])->get();
+        $suburbs = Suburb::all();
+        
+        // 求人情報一覧の取得
+        $jobOffers = JobOffer::with(['SubClassification', 'suburb.state']);
 
-        // 入力された内容を取得
+        // 検索内容を取得
         $search = $request->input('search');
         $subClassification = $request->input('sub_classification');
-        //dd($search, $subClassification, $request);
-
-        // keywordが入力されていれば、AND検索を実行
-        // if($search){
+        $suburb = $request->input('suburb');
+        // $sort = $request->input('sort');
+        
+        // キーワード検索
+        if($search){
             $spaceConvert = mb_convert_kana($search, 's');
             $searchKeyWords = preg_split('/[\s,]+/', $spaceConvert, -1, PREG_SPLIT_NO_EMPTY);
 
-            foreach($searchKeyWords as $searchKeyWord){
-                $jobOffers = JobOffer::where('title', 'LIKE', "%{$searchKeyWord}%")
-                                        //->where('sub_classification_id','=',$subClassification)
-                                        ->with(['suburb'])
-                                        ->get();
-                                        //->toArray();
+            if($search){
+                foreach($searchKeyWords as $searchKeyWord){
+                    $jobOffers->where('title', 'LIKE', "%{$searchKeyWord}%");
+                }
             }
-            //dd($jobOffers);
-        // }
-        //dd($search, $searchKeyWords, $jobOffers);
+        }
+        // 職種検索
+        if($subClassification != 0){
+            $jobOffers->where('sub_classification_id', '=', $subClassification);
+        }
 
-        
+        // 場所検索
+        if($suburbs){
+            $jobOffers->where('suburb_id', '=', $suburb);
+        }
+
         // 並び替え
         // if(!empty($sort)){
         //     if($sort === 'relevance'){
-        //         $query->orderBy('jobs.id', 'asc');
+        //         $jobOffers->orderBy('id', 'asc');
         //     }else{
-        //         $query->orderBy('jobs.created_at', 'desc');
+        //         $jobOffers->orderBy('created_at', 'desc');
         //     }
         // }else{
-        //     $query->orderBy('jobs.id', 'asc');
+        //     $jobOffers->orderBy('id', 'asc');
         // }
 
-        // カテゴリ検索
-        if($subClassification){
-            // $jobOffers = 
-            // $jobOffers = JobOffer::where('sub_classification_id','=',$subClassification)
-            //                         ->where('title', 'LIKE', "%{$searchKeyWords}%")
-            //                         ->with('SubClassification')
-            //                         ->get()
-            //                         ->toArray();
-        }
-        
+        $jobOffers = $jobOffers->paginate(10);
 
-        return view('seek.index', compact('classifications','jobOffers', 'search'));
-
-    }
-
-    public function search(Request $request)
-    {
-        //$classifications = Classification::all();
-        
-
-    
-        //return view('seek.jobs', compact('jobs', 'search', 'classifications'));
+        return view('seek.index', compact('classifications', 'suburbs', 'jobOffers', 'search'));
     }
 
     public function show($id)
