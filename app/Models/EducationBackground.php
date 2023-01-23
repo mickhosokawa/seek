@@ -1,23 +1,21 @@
 <?php
 
-namespace App\Models\User;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\User\User;
 
-class LicenceOrCertification extends Model
+class EducationBackground extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'licence_name',
-        'issuing_organization',
-        'issue_year',
-        'issue_month',
-        'expiry_year',
-        'expiry_month',
-        'is_expired',
+        'institution',
+        'major',
+        'degree',
+        'is_finished',
+        'finished_year',
+        'expected_year',
         'description',
     ];
 

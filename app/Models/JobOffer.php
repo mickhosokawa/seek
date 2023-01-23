@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Company;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -49,5 +49,13 @@ class JobOffer extends Model
     // ジョブオファーは複数のCompanyを持つ
     public function company(){
         return $this->belongsTo(Company::class);
+    }
+
+    public function subClassification(){
+        return $this->belongsTo(SubClassification::class);
+    }
+
+    public function suburb(){
+        return $this->belongsTo(Suburb::class);
     }
 }

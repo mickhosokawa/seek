@@ -6,7 +6,7 @@ use App\Enums\JobType;
 use App\Http\Controllers\Controller;
 use App\Models\Classification;
 use App\Models\Suburb;
-use App\Models\Company\JobOffer;
+use App\Models\JobOffer;
 use App\Http\Requests\Company\JobPostRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

@@ -2,18 +2,18 @@
 
 namespace App\Models;
 
-use App\Models\Company\AwardsAndAccreditations;
-use App\Models\Company\Benefits;
-use App\Models\Company\CultureAndValues;
-use App\Models\Company\Images;
+use App\Models\AwardsAndAccreditations;
+use App\Models\Benefits;
+use App\Models\CultureAndValues;
+use App\Models\Images;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\HumanResource;
+use Exception;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
 
 class Company extends Authenticatable
 {

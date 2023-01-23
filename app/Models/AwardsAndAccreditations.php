@@ -1,12 +1,11 @@
 <?php
 
-namespace App\Models\Company;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Company;
 
-class CultureAndValues extends Model
+class AwardsAndAccreditations extends Model
 {
     use HasFactory;
 
@@ -18,7 +17,7 @@ class CultureAndValues extends Model
     protected $fillable = [
         'title',
         'company_id',
-        'detail',
+        'image',
     ];
 
     // 企業テーブルが親

@@ -13,4 +13,9 @@ class Suburb extends Model
     {
         return $this->belongsTo(State::class);
     }
+
+    public function jobOffer()
+    {
+        return $this->hasMany(JobOffer::class);
+    }
 }
