@@ -41,7 +41,7 @@ class JobListController extends Controller
         }
 
         // 場所検索
-        if($suburbs){
+        if($suburb != 0){
             $jobOffers->where('suburb_id', '=', $suburb);
         }
 
@@ -56,7 +56,7 @@ class JobListController extends Controller
         //     $jobOffers->orderBy('id', 'asc');
         // }
 
-        $jobOffers = $jobOffers->paginate(10);
+        $jobOffers = $jobOffers->get();//paginate(10);
 
         return view('seek.index', compact('classifications', 'suburbs', 'jobOffers', 'search'));
     }
