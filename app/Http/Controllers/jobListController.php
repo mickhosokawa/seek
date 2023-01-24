@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Models\JobOffer;
 use App\Models\Classification;
 use App\Models\Suburb;
+use App\Models\SavedJob;
+use Illuminate\Support\Facades\Auth;
 
 class JobListController extends Controller
 {
@@ -17,6 +19,9 @@ class JobListController extends Controller
         
         // 求人情報一覧の取得
         $jobOffers = JobOffer::with(['SubClassification', 'suburb.state']);
+
+        // お気に入り登録情報の取得
+        //$nice = SavedJob::where('user_id', Auth::user()->id)->where('job_offer_id', $jobOffers->id)->first();
 
         // 検索内容を取得
         $search = $request->input('search');
