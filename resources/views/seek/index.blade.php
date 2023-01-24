@@ -58,13 +58,15 @@
           @foreach ($jobOffers as $job)
           {{-- @dump($job); --}}
           <h3 class="mt-5">
-            <a href="{{route('user.seek.show', ['id'=>$job->id]) }}" class="text-blue-600 text-2xl link-hover cursor-pointer">{{$job->title}}</a>
+            <a href="{{route('user.seek.show', ['id'=>$job->id]) }}" class="text-blue-600 text-2xl link-hover cursor-pointer" data-jobid="{{$job->id}}">{{$job->title}}</a>
             <p class="mt-3">{{$job->suburb->name.' - '.$job->suburb->state->name}}</p>
             <p>{{'$'.$job->annual_salary}} per month</p>
             <p>{{'Role: '.$job->subClassification->name}}</p>
             <p class="text-gray-400 mt-3 mb-3">{{ $job->description }}</p>
             <span class="">☆</span>
-            <span class="text-blue-600 text-xl link-hover cursor-pointer">Save</span>
+              {{-- <input type="hidden" name="favorite_job" value="{{ $job->id }}"> --}}
+              <button id="save">Save</button>
+            </form>
             <hr class="mt-5 border-t-2">
         </h3>
           @endforeach
@@ -80,6 +82,29 @@
   select.addEventListener('change', function(){
     this.form.submit()
   })
+</script>
+<script>
+
+  ('#save').addEventListener('click', () => {
+
+    // POST通信
+    fetch('/my-activity/saved-jobs', {
+      method: 'POST',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        job_offer_id: jobid,
+      }),
+    }),
+  })
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data)
+  })
+  .catch((error) => {
+    console.log(error)
+  });
 </script>
 
 </x-navigation-and-search>
