@@ -58,4 +58,15 @@ class JobOffer extends Model
     public function suburb(){
         return $this->belongsTo(Suburb::class);
     }
+
+    // 1つの求人情報は複数のユーザーからお気に入り登録される
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+
+    // 1つの求人情報は複数のいいねをもらう可能性がある
+    public function savedJob()
+    {
+        return $this->hasMany(SavedJob::class);
+    }
 }

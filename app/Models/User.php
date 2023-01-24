@@ -79,4 +79,20 @@ class User extends Authenticatable
         // ユーザーは複数のスキルを持つ
         return $this->hasMany(Skill::class);
     }
+
+    // ユーザーは複数のお気に入りを持つ
+    public function jobOffer(){
+        return $this->hasMany(JobOffer::class);
+    }
+
+    // ユーザーは複数の求人情報をお気に入り登録できる
+    public function savedJob(){
+        return $this->hasMany(SavedJob::class);
+    }
+
+    // お気に入り登録がされているか
+    public function isSavedJobOffer($jobOfferId)
+    {
+        return $this->savedJob()->where('job_offer_id', $jobOfferId)->exists();
+    }
 }
