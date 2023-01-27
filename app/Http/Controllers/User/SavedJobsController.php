@@ -31,10 +31,12 @@ class SavedJobsController extends Controller
     {
         $alreadyLiked = SavedJob::where('user_id', Auth::user()->id)->where('job_offer_id', $request->job_offer_id)->exists();
         $jobOfferId = $request->input('job_offer_id');
+        $regiStatus = '';
         $param = [];
 
         if($this->isLogin()){
             if(!$alreadyLiked){
+                $regiStatus = 'add';
                 $user = Auth::user()->id;
                 $saveJob = SavedJob::create([
                     'user_id' => $user, 
@@ -43,12 +45,14 @@ class SavedJobsController extends Controller
                 $saveJob->save();
             }else{
                 SavedJob::where('user_id', Auth::user()->id)->where('job_offer_id', $jobOfferId)->delete();
+                $regiStatus = 'remove';
             }
         }else{
             return redirect('login');
         }
         $param = [
             'job_offer_id' => $jobOfferId,
+            'status' => $regiStatus,
             ];
             
         return response()->json($param);
