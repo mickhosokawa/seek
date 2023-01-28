@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Models\SavedJob;
+use App\Models\User;
+use App\Models\JobOffer;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class SavedJobsController extends Controller
@@ -18,16 +22,6 @@ class SavedJobsController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -35,7 +29,34 @@ class SavedJobsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $alreadyLiked = SavedJob::where('user_id', Auth::user()->id)->where('job_offer_id', $request->job_offer_id)->exists();
+        $jobOfferId = $request->input('job_offer_id');
+        $regiStatus = '';
+        $param = [];
+
+        if($this->isLogin()){
+            dd('trest');
+            if(!$alreadyLiked){
+                $regiStatus = 'add';
+                $user = Auth::user()->id;
+                $saveJob = SavedJob::create([
+                    'user_id' => $user, 
+                    'job_offer_id' => $jobOfferId
+                ]);
+                $saveJob->save();
+            }else{
+                SavedJob::where('user_id', Auth::user()->id)->where('job_offer_id', $jobOfferId)->delete();
+                $regiStatus = 'remove';
+            }
+        }else{
+            return redirect('login');
+        }
+        $param = [
+            'job_offer_id' => $jobOfferId,
+            'status' => $regiStatus,
+            ];
+            
+        return response()->json($param);
     }
 
     /**
@@ -50,36 +71,23 @@ class SavedJobsController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(JobOffer $jobOffer, Request $request)
     {
-        //
+        $user = Auth::user()->id;
+        $nice = SavedJob::where('job_offer_id', $jobOffer->id)->where('user_id', $user)->first();
+        $nice->destroy();
+    }
+
+    public function isLogin(){
+        if(Auth::check()){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\JobOffer;
 use App\Models\Classification;
+use App\Models\Job;
 use App\Models\Suburb;
+use App\Models\SavedJob;
+use Illuminate\Support\Facades\Auth;
 
 class JobListController extends Controller
 {
@@ -18,6 +21,8 @@ class JobListController extends Controller
         // 求人情報一覧の取得
         $jobOffers = JobOffer::with(['SubClassification', 'suburb.state']);
 
+        // お気に入り登録済みかどうか
+        
         // 検索内容を取得
         $search = $request->input('search');
         $subClassification = $request->input('sub_classification');
@@ -56,7 +61,7 @@ class JobListController extends Controller
         //     $jobOffers->orderBy('id', 'asc');
         // }
 
-        $jobOffers = $jobOffers->get();//paginate(10);
+        $jobOffers = $jobOffers->get();
 
         return view('seek.index', compact('classifications', 'suburbs', 'jobOffers', 'search'));
     }
@@ -67,4 +72,5 @@ class JobListController extends Controller
 
         return view('seek.jobDetail', compact('detail'));
     }
+
 }
