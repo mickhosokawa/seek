@@ -35,6 +35,7 @@ class SavedJobsController extends Controller
         $param = [];
 
         if($this->isLogin()){
+            dd('trest');
             if(!$alreadyLiked){
                 $regiStatus = 'add';
                 $user = Auth::user()->id;

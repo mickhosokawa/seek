@@ -115,15 +115,13 @@
       <div class="bg-white max-w-screen-md m-auto rounded-md mt-1 mb-1 p-3 w-11/12">
         @if (isset($jobOffers))
           @foreach ($jobOffers as $job)
-          {{-- @dump($job); --}}
           <h3 class="mt-5">
             <a href="{{route('user.seek.show', ['id'=>$job->id]) }}" class="text-blue-600 text-2xl link-hover cursor-pointer" id="{{ 'target'.$job->id }}" data-id="{{$job->id}}">{{$job->title}}</a>
             <p class="mt-3">{{$job->suburb->name.' - '.$job->suburb->state->name}}</p>
             <p>{{'$'.$job->annual_salary}} per month</p>
             <p>{{'Role: '.$job->subClassification->name}}</p>
-            <p class="text-gray-400 mt-3 mb-3">{{ $job->description }}</p>
-            <span class="">☆</span>
-              {{-- <input type="hidden" name="favorite_job" value="{{ $job->id }}"> --}}
+            <p class="text-gray-400 mt-3 mb-3">{{ $job->description }}</p>    
+              <span class="">☆</span>
               <button class="like" name="{{ $job->id }}" data-job="{{ $job->id }}" >Save</button>
             </form>
             <hr class="mt-5 border-t-2">

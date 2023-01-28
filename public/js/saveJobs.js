@@ -10,7 +10,6 @@ like.forEach( (like) =>{
       method: 'POST',
       headers: {
         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-        // 'X-CSRF-TOKEN': document.head.attr('content'),
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
